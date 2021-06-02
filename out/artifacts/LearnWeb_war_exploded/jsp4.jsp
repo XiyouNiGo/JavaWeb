@@ -44,5 +44,8 @@
     list[0]: ${list[0]}<br>
     <%-- Map --%>
     map["1"]: ${map["1"]}<br>
+    <%-- empty --%>
+    empty uname： ${uname}
+    empty hhh： ${hhh}
 </body>
 </html>
