@@ -12,6 +12,19 @@ public class Play {
     private double playTicketPrice;
     private long playStatus;
 
+    public Play() {
+    }
+
+    public Play(String playName, String playIntroduction, String playImage, String playVideo, long playLength,
+                double playTicketPrice, long playStatus) {
+        this.playName = playName;
+        this.playIntroduction = playIntroduction;
+        this.playImage = playImage;
+        this.playVideo = playVideo;
+        this.playLength = playLength;
+        this.playTicketPrice = playTicketPrice;
+    }
+
     public long getPlayId() {
         return playId;
     }
