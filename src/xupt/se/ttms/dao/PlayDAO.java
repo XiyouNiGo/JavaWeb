@@ -44,7 +44,7 @@ public class PlayDAO implements IPlayDAO {
                     + "play_ticket_price = '%lf', play_status = '%ld' where play_id = '%ld'",
                     play.getPlayName(), play.getPlayIntroduction(), play.getPlayImage(),
                     play.getPlayVideo(), play.getPlayLength(), play.getPlayTicketPrice(),
-                    play.getPlayStatus(), play.getPlayStatus());
+                    play.getPlayStatus(), play.getPlayId());
             DBUtil db = new DBUtil();
             db.openConnection();
             result = db.execCommand(sql);

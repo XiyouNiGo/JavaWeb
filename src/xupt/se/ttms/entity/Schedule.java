@@ -1,5 +1,7 @@
 package xupt.se.ttms.entity;
 
+import java.sql.Timestamp;
+
 public class Schedule {
   private long schedId;
   private long studioId;
@@ -7,6 +9,17 @@ public class Schedule {
   private java.sql.Timestamp schedTime;
   private double schedTicketPrice;
   private long schedStatus;
+
+  public Schedule() {
+  }
+
+  public Schedule(long studioId, long playId, Timestamp schedTime, double schedTicketPrice, long schedStatus) {
+    this.studioId = studioId;
+    this.playId = playId;
+    this.schedTime = schedTime;
+    this.schedTicketPrice = schedTicketPrice;
+    this.schedStatus = schedStatus;
+  }
 
   public long getSchedId() {
     return schedId;
