@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7259bb8b-cae2-44bb-b47b-95e36b76ad6a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/xupt/se/ttms/controller/PlayServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/xupt/se/ttms/dao/PlayDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/xupt/se/ttms/dao/factory/PlayDAOFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/xupt/se/ttms/dao/idao/IPlayDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/xupt/se/ttms/service/PlayService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/xupt/se/ttms/service/iservice/IPlayService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/xupt/se/ttms/entity/Play.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/xupt/se/ttms/entity/Play.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +33,7 @@
       <option name="presentableId" value="Default" />
       <updated>1622623231567</updated>
       <workItem from="1622623232778" duration="4000" />
+      <workItem from="1622681810267" duration="7000" />
     </task>
     <servers />
   </component>

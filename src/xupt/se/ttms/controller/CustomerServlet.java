@@ -1,6 +1,7 @@
 package xupt.se.ttms.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,12 +20,10 @@ public class CustomerServlet extends HttpServlet {
         int id = 0;
         if (type.equalsIgnoreCase("login"))
             login(req, resp, false);
-        else if (type.equalsIgnoreCase("delete"))
+        else if (type.equalsIgnoreCase("setimfo"))
             setImformation(req, resp);
-//        else if (type.equalsIgnoreCase("update"))
-//            update(req, resp);
-//        else if (type.equalsIgnoreCase("search"))
-//            search(req, resp);
+        else if (type.equalsIgnoreCase("register"))
+            register(req, resp);
     }
 
     private void login(HttpServletRequest req, HttpServletResponse resp, boolean forward) throws IOException {
@@ -38,7 +37,7 @@ public class CustomerServlet extends HttpServlet {
         }
     }
 
-    private void setImformation(HttpServletRequest req, HttpServletResponse resp) {
+    private void setImformation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html;charset=utf-8");
         try {
             String name = req.getParameter("name");
@@ -46,10 +45,42 @@ public class CustomerServlet extends HttpServlet {
             String telnum = req.getParameter("telnum");
             String email = req.getParameter("email");
             String uid = req.getParameter("uid");
-            Customer customer = null;
+            Customer customer = new Customer(name, gender, telnum, email, uid);
+            PrintWriter out = resp.getWriter();
 
+            if (new CustomerService().modify(customer) == 1)
+                out.write("数据修改成功");
+            else
+                out.write("数据修改失败，请重试");
+
+            out.close();
         } catch (Exception exception) {
+            exception.printStackTrace();
+            resp.getWriter().write("操作错误，请重试");
+        }
+    }
 
+    private void register(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;charset=utf-8");
+        Customer customer = null;
+        try {
+            customer = new Customer();
+            customer.setCusName(request.getParameter("name"));
+            customer.setCusGender(Long.valueOf(request.getParameter("gender")));
+            customer.setCusTelnum(request.getParameter("telnum"));
+            customer.setCusEmail(request.getParameter("email"));
+            customer.setCusPwd(request.getParameter("pwd"));
+            PrintWriter out = response.getWriter();
+
+            if (new CustomerService().add(customer) == 1)
+                out.write("数据添加成功");
+            else
+                out.write("数据添加失败，请重试");
+
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("操作错误，请重试");
         }
     }
 }

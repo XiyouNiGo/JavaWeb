@@ -5,9 +5,9 @@ import java.util.List;
 import xupt.se.ttms.entity.Play;
 
 public interface IPlayService {
-    public int add(Play stu);
+    public int add(Play play);
 
-    public int modify(Play stu);
+    public int modify(Play play);
 
     public int delete(int ID);
 

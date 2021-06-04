@@ -13,6 +13,17 @@ public class Customer {
     private double cusBalance;
     private String cusPaypwd;
 
+    public Customer() {
+    }
+
+    public Customer(String cusName, long cusGender, String cusTelnum, String cusEmail, String cusUid) {
+        this.cusName = cusName;
+        this.cusGender = cusGender;
+        this.cusTelnum = cusTelnum;
+        this.cusEmail = cusEmail;
+        this.cusUid = cusUid;
+    }
+
     public long getCusId() {
         return cusId;
     }
