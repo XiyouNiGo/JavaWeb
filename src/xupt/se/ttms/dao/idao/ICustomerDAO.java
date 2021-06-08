@@ -10,4 +10,6 @@ public interface ICustomerDAO {
     public int update(Customer customer);
 
     public List<Customer> select(String uname);
+
+    public int update_balance(int amount, Customer customer);
 }

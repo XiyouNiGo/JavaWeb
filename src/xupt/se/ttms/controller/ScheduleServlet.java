@@ -100,10 +100,10 @@ public class ScheduleServlet extends HttpServlet {
     private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        String id = request.getParameter("id");
+        String play_id = request.getParameter("play_id");
         List<Schedule> result = null;
-        if (id != null && id.length() > 0)
-            result = new ScheduleService().Fetch(id);
+        if (play_id != null && play_id.length() > 0)
+            result = new ScheduleService().Fetch(play_id);
         else
             result = new ScheduleService().FetchAll();
         String jsonStr = "";
@@ -117,6 +117,7 @@ public class ScheduleServlet extends HttpServlet {
                 json.put("play_id", schedule.getPlayId());
                 json.put("sched_time", schedule.getSchedTime().toString());
                 json.put("sched_ticket_price", schedule.getSchedTicketPrice());
+//                json.put("studio_name", schedule.getSchedTicketPrice());
                 json.put("sched_status", schedule.getSchedStatus());
                 array.put(json);
             }

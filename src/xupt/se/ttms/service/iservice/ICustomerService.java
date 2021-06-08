@@ -18,4 +18,8 @@ public interface ICustomerService {
     public List<Customer> Fetch(String condt);
 
     public List<Customer> FetchAll();
+
+    public int pay(int amount, Customer customer);
+
+    public int recharge(int amount, Customer customer);
 }

@@ -37,13 +37,16 @@ public class PlayServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         Play play = null;
         try {
-            String name = request.getParameter("name");
-            String introduction = request.getParameter("introduction");
-            String image = request.getParameter("image");
-            String video = request.getParameter("video");
-            long length = Long.valueOf(request.getParameter("length"));
-            double ticket_price = Double.valueOf(request.getParameter("ticket_price"));
-            play = new Play(name, introduction, image, video, length, ticket_price, 0);
+            play = new Play();
+            play.setPlayName(request.getParameter("name"));
+            play.setPlayIntroduction(request.getParameter("introduction"));
+            play.setPlayImage(request.getParameter("image"));
+            play.setPlayLength(Long.valueOf(request.getParameter("length")));
+            play.setPlayTicketPrice(Long.valueOf(request.getParameter("ticket_price")));
+            play.setLanguage(request.getParameter("language"));
+            play.setPlayType(request.getParameter("play_type"));
+            play.setPlayStatus(0);
+
             PrintWriter out = response.getWriter();
 
             if (new PlayService().add(play) == 1)
@@ -118,9 +121,10 @@ public class PlayServlet extends HttpServlet {
                 json.put("name", play.getPlayName());
                 json.put("introduction", play.getPlayIntroduction());
                 json.put("image", play.getPlayImage());
-                json.put("video", play.getPlayVideo());
                 json.put("length", play.getPlayLength());
                 json.put("ticket_price", play.getPlayTicketPrice());
+                json.put("language", play.getLanguage());
+                json.put("play_type", play.getPlayType());
                 array.put(json);
             }
             jsonStr = array.toString();

@@ -5,8 +5,9 @@ import java.util.List;
 import xupt.se.ttms.dao.factory.TicketDAOFactory;
 import xupt.se.ttms.dao.idao.ITicketDAO;
 import xupt.se.ttms.entity.Ticket;
+import xupt.se.ttms.service.iservice.ITicketService;
 
-public class TicketService {
+public class TicketService implements ITicketService {
     private ITicketDAO ticketDAO = TicketDAOFactory.creatTicketDAO();
 
     public int add(Ticket ticket) {

@@ -11,6 +11,25 @@ public class Play {
     private long playLength;
     private double playTicketPrice;
     private long playStatus;
+    private String language;
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getPlayType() {
+        return playType;
+    }
+
+    public void setPlayType(String playType) {
+        this.playType = playType;
+    }
+
+    private String playType;
 
     public Play() {
     }

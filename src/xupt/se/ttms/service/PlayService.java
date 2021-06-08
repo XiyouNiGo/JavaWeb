@@ -5,8 +5,9 @@ import java.util.List;
 import xupt.se.ttms.dao.factory.PlayDAOFactory;
 import xupt.se.ttms.dao.idao.IPlayDAO;
 import xupt.se.ttms.entity.Play;
+import xupt.se.ttms.service.iservice.IPlayService;
 
-public class PlayService {
+public class PlayService implements IPlayService {
     private IPlayDAO playDAO = PlayDAOFactory.creatPlayDAO();
 
     public int add(Play play) {

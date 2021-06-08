@@ -15,6 +15,16 @@ import xupt.se.ttms.service.iservice.ICustomerService;
 import xupt.se.util.EncryptUtil;
 
 public class CustomerService implements ICustomerService {
+    @Override
+    public int pay(int amount, Customer customer) {
+        return customerDAO.update_balance(-amount, customer);
+    }
+
+    @Override
+    public int recharge(int amount, Customer customer) {
+        return customerDAO.update_balance(amount, customer);
+    }
+
     private ICustomerDAO customerDAO = CustomerDAOFactory.createCustomerDAO();
 
     @Override

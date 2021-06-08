@@ -10,14 +10,31 @@ import xupt.se.util.DBUtil;
 
 public class CustomerDAO implements ICustomerDAO {
     @Override
+    public int update_balance(int amount, Customer customer) {
+        int result = 0;
+        try {
+            String sql = String.format("update customer set cus_balance = '%d' where ", amount);
+            DBUtil db = new DBUtil();
+            db.openConnection();
+            result = db.execCommand(sql);
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return result;
+        }
+    }
+
+    @Override
     public int insert(Customer customer) {
         int result = 0;
         try {
             String sql = String.format("insert into customer(cus_name, cus_gender, cus_telnum, "
                             + "cus_email, cus_pwd)"
-                            + " values('%s', '%ld', '%s', '%s', '%s')", customer.getCusName(),
+                            + " values('%s', '%ld', '%s', '%s', '%s', '%ld', '%s')", customer.getCusName(),
                     customer.getCusGender(), customer.getCusTelnum(),
-                    customer.getCusEmail(), customer.getCusPwd());
+                    customer.getCusEmail(), customer.getCusPwd(), 0,
+                    customer.getCusPaypwd());
             DBUtil db = new DBUtil();
             db.openConnection();
             ResultSet rst = db.getInsertObjectIDs(sql);

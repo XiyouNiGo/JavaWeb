@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import xupt.se.ttms.entity.Customer;
 import xupt.se.ttms.service.CustomerService;
 
-@WebServlet("CustomerServlet")
+@WebServlet("/CustomerServlet")
 public class CustomerServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,7 +40,7 @@ public class CustomerServlet extends HttpServlet {
     private void setImformation(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html;charset=utf-8");
         try {
-            String name = req.getParameter("name");
+            String name = req.getParameter("uname");
             Long gender = Long.valueOf(req.getParameter("gender"));
             String telnum = req.getParameter("telnum");
             String email = req.getParameter("email");
@@ -65,22 +65,23 @@ public class CustomerServlet extends HttpServlet {
         Customer customer = null;
         try {
             customer = new Customer();
-            customer.setCusName(request.getParameter("name"));
+            customer.setCusName(request.getParameter("uname"));
             customer.setCusGender(Long.valueOf(request.getParameter("gender")));
             customer.setCusTelnum(request.getParameter("telnum"));
             customer.setCusEmail(request.getParameter("email"));
-            customer.setCusPwd(request.getParameter("pwd"));
+            customer.setCusPwd(request.getParameter("passwd"));
+            customer.setCusPaypwd(request.getParameter("paypwd"));
             PrintWriter out = response.getWriter();
 
             if (new CustomerService().add(customer) == 1)
-                out.write("数据添加成功");
+                out.write("true");
             else
-                out.write("数据添加失败，请重试");
+                out.write("false");
 
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write("操作错误，请重试");
+            response.getWriter().write("false");
         }
     }
 }
