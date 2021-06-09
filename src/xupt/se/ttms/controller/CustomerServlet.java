@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import xupt.se.ttms.entity.Customer;
 import xupt.se.ttms.service.CustomerService;
+import xupt.se.util.MD5Utils;
 
 @WebServlet("/CustomerServlet")
 public class CustomerServlet extends HttpServlet {
@@ -69,7 +70,8 @@ public class CustomerServlet extends HttpServlet {
             customer.setCusGender(Long.valueOf(request.getParameter("gender")));
             customer.setCusTelnum(request.getParameter("telnum"));
             customer.setCusEmail(request.getParameter("email"));
-            customer.setCusPwd(request.getParameter("passwd"));
+            customer.setCusPwd(MD5Utils.MD5(request.getParameter("passwd")).substring(0, 20));
+            System.out.println(customer.getCusPwd());
             customer.setCusPaypwd(request.getParameter("paypwd"));
             PrintWriter out = response.getWriter();
 

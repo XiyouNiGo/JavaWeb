@@ -3,7 +3,6 @@ package xupt.se.ttms.service;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,8 @@ import xupt.se.ttms.dao.factory.CustomerDAOFactory;
 import xupt.se.ttms.dao.idao.ICustomerDAO;
 import xupt.se.ttms.entity.Customer;
 import xupt.se.ttms.service.iservice.ICustomerService;
-import xupt.se.util.EncryptUtil;
+
+import xupt.se.util.MD5Utils;
 
 public class CustomerService implements ICustomerService {
     @Override
@@ -45,26 +45,29 @@ public class CustomerService implements ICustomerService {
             }
         }
         if (uname_cookie == false && passwd_cookie == false) {
-            EncryptUtil encryptUtil = new EncryptUtil();
             uname = req.getParameter("uname");
-            passwd = encryptUtil.MD5(req.getParameter("passwd"));
+//            passwd = req.getParameter("passwd");
+            passwd = MD5Utils.MD5(req.getParameter("passwd")).substring(0, 20);
         }
         try {
-            List<Customer> customerList = customerDAO.select("uname");
-            String real_pwd = customerList.get(1).getCusPwd();
+            List<Customer> customerList = customerDAO.select(uname);
+            if (customerList.size() < 1) {
+                throw new Exception("No such uname");
+            }
+            String real_pwd = customerList.get(0).getCusPwd();
             if (passwd.equals(real_pwd)) {
-                resp.getWriter().write("登录成功");
+                resp.getWriter().write("true");
                 resp.addCookie(new Cookie("uname", uname));
                 resp.addCookie(new Cookie("passwd", passwd));
             } else {
-                resp.getWriter().write("登录失败");
+                resp.getWriter().write("false");
                 if (forward) {
                     req.getRequestDispatcher("login.html").forward(req, resp);
                 }
             }
-        } catch (IOException | ServletException ioException) {
-            ioException.printStackTrace();
-            resp.getWriter().write("操作，请重试");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            resp.getWriter().write("false");
         }
     }
 

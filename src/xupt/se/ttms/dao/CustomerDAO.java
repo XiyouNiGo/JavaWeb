@@ -30,10 +30,11 @@ public class CustomerDAO implements ICustomerDAO {
         int result = 0;
         try {
             String sql = String.format("insert into customer(cus_name, cus_gender, cus_telnum, "
-                            + "cus_email, cus_pwd)"
-                            + " values('%s', '%ld', '%s', '%s', '%s', '%ld', '%s')", customer.getCusName(),
+                            + "cus_email, cus_pwd, cus_status, cus_balance, cus_paypwd)"
+                            + " values('%s', '%d', '%s', '%s', '%s', '%d', '%d', '%s')",
+                    customer.getCusName(),
                     customer.getCusGender(), customer.getCusTelnum(),
-                    customer.getCusEmail(), customer.getCusPwd(), 0,
+                    customer.getCusEmail(), customer.getCusPwd(), 1, 0,
                     customer.getCusPaypwd());
             DBUtil db = new DBUtil();
             db.openConnection();

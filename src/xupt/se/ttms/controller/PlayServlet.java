@@ -76,19 +76,19 @@ public class PlayServlet extends HttpServlet {
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-        Play play = null;
-        int id = 0;
-        try {
-            id = Integer.valueOf(request.getParameter("id"));
-            String name = request.getParameter("name");
-            String introduction = request.getParameter("introduction");
-            String image = request.getParameter("image");
-            String video = request.getParameter("video");
-            long length = Long.valueOf(request.getParameter("length"));
-            double ticket_price = Double.valueOf(request.getParameter("ticket_price"));
-            long status = Long.valueOf(request.getParameter("status"));
-            play = new Play(name, introduction, image, video, length, ticket_price, status);
-            PrintWriter out = response.getWriter();
+            Play play = null;
+            int id = 0;
+            try {
+                id = Integer.valueOf(request.getParameter("id"));
+                String name = request.getParameter("name");
+                String introduction = request.getParameter("introduction");
+                String image = request.getParameter("image");
+                String video = request.getParameter("video");
+                long length = Long.valueOf(request.getParameter("length"));
+                double ticket_price = Double.valueOf(request.getParameter("ticket_price"));
+                long status = Long.valueOf(request.getParameter("status"));
+                play = new Play(name, introduction, image, video, length, ticket_price, status);
+                PrintWriter out = response.getWriter();
 
             if (new PlayService().modify(play) == 1)
                 out.write("数据修改成功");
