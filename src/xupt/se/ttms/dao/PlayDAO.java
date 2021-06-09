@@ -18,10 +18,10 @@ public class PlayDAO implements IPlayDAO {
             IDataDictDAO dataDictDAO = DataDictDAOFactory.createDataDictDAO();
             String dict_lang_id = dataDictDAO.getDictId(play.getLanguage());
             String dict_type_id = dataDictDAO.getDictId(play.getPlayType());
-            String sql = String.format("insert into play(play_name, play_introduction, play_image, "
+            String sql = String.format("insert into play(play_name, play_introduction, "
                             + "play_length, play_ticket_price, play_status, dict_lang_id, dict_type_id)"
                             + " values('%s', '%s', '%s', '%ld', '%lf', '%ld', '%s', '%s')", play.getPlayName(),
-                    play.getPlayIntroduction(), play.getPlayImage(),
+                    play.getPlayIntroduction(),
                     play.getPlayLength(), play.getPlayTicketPrice(),
                     play.getPlayStatus(), dict_lang_id, dict_type_id);
             DBUtil db = new DBUtil();
@@ -90,6 +90,7 @@ public class PlayDAO implements IPlayDAO {
             }
             ResultSet rst = db.execQuery(sql);
             if (rst != null) {
+                IDataDictDAO dataDictDAO = DataDictDAOFactory.createDataDictDAO();
                 while (rst.next()) {
                     Play play = new Play();
                     play.setPlayId(rst.getLong("play_id"));
@@ -98,8 +99,8 @@ public class PlayDAO implements IPlayDAO {
                     play.setPlayImage(rst.getString("play_image"));
                     play.setPlayLength(rst.getLong("play_length"));
                     play.setPlayTicketPrice(rst.getLong("play_ticket_price"));
-                    play.setLanguage(rst.getString("dict_lang_id"));
-                    play.setPlayType(rst.getString("dict_type_id"));
+                    play.setLanguage(dataDictDAO.getDictValue(rst.getString("dict_lang_id")));
+                    play.setPlayType(dataDictDAO.getDictValue(rst.getString("dict_type_id")));
                     playList.add(play);
                 }
             }

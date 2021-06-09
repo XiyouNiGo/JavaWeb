@@ -5,19 +5,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 import xupt.se.ttms.dao.idao.ITicketDAO;
+import xupt.se.ttms.entity.Customer;
 import xupt.se.ttms.entity.Ticket;
+import xupt.se.ttms.service.CustomerService;
 import xupt.se.util.DBUtil;
 
 public class TicketDAO implements ITicketDAO {
     @Override
-    public int insert(Ticket ticket) {
+    public int insert(Ticket ticket, Customer customer) {
         int result = 0;
         try {
+            CustomerService customerService = new CustomerService();
+            if (customerService.pay((int)ticket.getTicketPrice(), customer) != 1) {
+                return -1;
+            }
             String sql = String.format("insert into ticket(seat_id, sched_id, ticket_price, "
-                            + "ticket_status, ticket_locktime)"
-                            + " values('%ld', '%ld', '%lf', '%ld', '%s')", ticket.getSeatId(),
+                            + "ticket_status)"
+                            + " values('%d', '%d', '%lf', '%d')", ticket.getSeatId(),
                     ticket.getSchedId(), ticket.getTicketPrice(),
-                    ticket.getTicketStatus(), ticket.getTicketLocktime().toString());
+                    ticket.getTicketStatus());
             DBUtil db = new DBUtil();
             db.openConnection();
             ResultSet rst = db.getInsertObjectIDs(sql);
@@ -70,7 +76,7 @@ public class TicketDAO implements ITicketDAO {
                     ticket.setSchedId(rst.getLong("sched_id"));
                     ticket.setTicketPrice(rst.getDouble("ticket_price"));
                     ticket.setTicketStatus(rst.getLong("ticket_status"));
-                    ticket.setTicketLocktime(rst.getTimestamp("ticket_locktime"));
+//                    ticket.setTicketLocktime(rst.getTimestamp("ticket_locktime"));
                     ticketList.add(ticket);
                 }
             }

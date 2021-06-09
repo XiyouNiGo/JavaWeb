@@ -40,7 +40,7 @@ public class PlayServlet extends HttpServlet {
             play = new Play();
             play.setPlayName(request.getParameter("name"));
             play.setPlayIntroduction(request.getParameter("introduction"));
-            play.setPlayImage(request.getParameter("image"));
+//            play.setPlayImage(request.getParameter("image"));
             play.setPlayLength(Long.valueOf(request.getParameter("length")));
             play.setPlayTicketPrice(Long.valueOf(request.getParameter("ticket_price")));
             play.setLanguage(request.getParameter("language"));

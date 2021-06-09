@@ -25,6 +25,30 @@ public class CustomerServlet extends HttpServlet {
             setImformation(req, resp);
         else if (type.equalsIgnoreCase("register"))
             register(req, resp);
+        else if (type.equalsIgnoreCase("recharge"))
+            recharge(req, resp);
+    }
+
+    private void recharge(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/html;charset=utf-8");
+        PrintWriter out = resp.getWriter();
+        try {
+            int amount = Integer.valueOf(req.getParameter("amount"));
+            Customer customer = new Customer();
+            customer.setCusName(req.getParameter("uname"));
+            customer.setCusPaypwd(MD5Utils.MD5(req.getParameter("paypwd")).substring(0, 20));
+
+            if (new CustomerService().recharge(amount, customer) == 1) {
+                out.write("true");
+            } else {
+                out.write("false");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            out.write("false");
+        } finally {
+            out.close();
+        }
     }
 
     private void login(HttpServletRequest req, HttpServletResponse resp, boolean forward) throws IOException {
@@ -34,7 +58,7 @@ public class CustomerServlet extends HttpServlet {
             customerService.login(req, resp, forward);
         } catch (IOException ioException) {
             ioException.printStackTrace();
-            resp.getWriter().write("操作错误，请重试");
+            resp.getWriter().write("false");
         }
     }
 
@@ -72,7 +96,7 @@ public class CustomerServlet extends HttpServlet {
             customer.setCusEmail(request.getParameter("email"));
             customer.setCusPwd(MD5Utils.MD5(request.getParameter("passwd")).substring(0, 20));
             System.out.println(customer.getCusPwd());
-            customer.setCusPaypwd(request.getParameter("paypwd"));
+            customer.setCusPaypwd(MD5Utils.MD5(request.getParameter("paypwd")).substring(0, 20));
             PrintWriter out = response.getWriter();
 
             if (new CustomerService().add(customer) == 1)

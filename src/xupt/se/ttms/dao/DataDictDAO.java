@@ -34,7 +34,7 @@ public class DataDictDAO implements IDataDictDAO {
         String dict_value = "";
         try {
             dict_id.trim();
-            String sql = "select dict_value from data_dict where dict_id like '%" + dict_value + "%'";
+            String sql = "select dict_value from data_dict where dict_id like '%" + dict_id + "%'";
             DBUtil db = new DBUtil();
             if (!db.openConnection()) {
                 System.out.print("fail to connect database");

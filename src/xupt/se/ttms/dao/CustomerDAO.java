@@ -13,9 +13,19 @@ public class CustomerDAO implements ICustomerDAO {
     public int update_balance(int amount, Customer customer) {
         int result = 0;
         try {
-            String sql = String.format("update customer set cus_balance = '%d' where ", amount);
             DBUtil db = new DBUtil();
             db.openConnection();
+            String sql = String.format("select * from customer where cus_name = '%s' and cus_paypwd = '%s'",
+                    customer.getCusName(), customer.getCusPaypwd());
+            ResultSet rst = db.execQuery(sql);
+            if (rst == null || !rst.next()) {
+                return 0;
+            }
+            db.close(rst);
+            sql = String.format("update customer set cus_balance = cus_balance + %d where "
+                    + "cus_name = '%s' and cus_paypwd = '%s'", amount, customer.getCusName(),
+                    customer.getCusPaypwd());
+
             result = db.execCommand(sql);
             db.close();
         } catch (Exception e) {
