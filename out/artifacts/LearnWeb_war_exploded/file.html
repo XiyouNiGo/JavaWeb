@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>upload</title>
+    <script>
+        function upload() {
+            var url = "/serv25";
+            if (window.XMLHttpRequest)
+                req = new XMLHttpRequest();
+            else if (window.ActiveXObject)
+                req = new ActiveXObject("Microsoft.XMLHTTP");
+            if (req) {
+                //采用POST方式，异步传输
+                req.open("post", url, true);
+                //POST方式，必须加入如下头信息设定
+                // req.setRequestHeader("Content-Type", "multipart/form-data");
+                req.onreadystatechange = function () {
+                    console.log("readState:" + req.readyState)
+                    console.log("state:" + req.status)
+                    if (req.readyState == 4 && req.status == 200) {
+                        if (req.responseText == "true") {
+                            alert("登录成功");
+                        } else
+                            alert("登录失败");
+                    }
+                };
+                var form_data = new FormData()
+                form_data.append("image", document.getElementById("upload_file").files[0])
+                form_data.append("name", document.getElementById("name").value)
+                req.send(form_data);
+            }
+        }
+    </script>
+</head>
+<body>
+<!--<form action="serv21" method="post" enctype="multipart/form-data">-->
+<form action="serv25" method="post">
+    name:<input type="text" name="name" id="name">
+    <br>
+    文件名：<input type="file" name="upload_file" id="upload_file">
+    <!--    <button>upload</button>-->
+    <input type="button" name="上传" value="上传文件" onclick="upload()"/>
+</form>
+</body>
+</html>

@@ -1,5 +1,8 @@
 package LearnWeb;
 
+import org.apache.commons.fileupload.FileItemFactory;
+
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.*;
@@ -21,11 +24,23 @@ public class Servlet21 extends HttpServlet{
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        System.out.println("*");
+        System.out.println(req.getParameter("name"));
+        System.out.println(req.getParameter("type"));
+        System.out.println("*");
         Part part = req.getPart("upload_file");
         String file_name = part.getSubmittedFileName();
-        String real_path = req.getServletContext().getRealPath("/");
+        String real_path = req.getServletContext().getRealPath("/image/");
+        File dir = new File(real_path);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
         System.out.println("file_name: " + file_name);
         System.out.println("real_path: " + real_path);
+        String partHeader = part.getHeader("Content-Disposition");
+        String image_name = partHeader.substring(partHeader.lastIndexOf("=")+2, partHeader.length()-1);
+        System.out.println(image_name);
         part.write(real_path + file_name);
+        resp.getWriter().write("true");
     }
 }

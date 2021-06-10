@@ -1,0 +1,4 @@
+Servlet IDAO DAO DAOFactory IService Service
+Servlet DAO Service
+已对接：
+用户登录、注册、充值、剧目管理
