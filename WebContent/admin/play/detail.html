@@ -135,11 +135,11 @@
 				alert("请填写完整信息");
 				return;
 			}
-			if(isNaN(form.language.value) || isNaN(form.play_type.value)){
-				alert("剧目语言和剧目类型不是数字");
+			if(isNaN(form.length.value) || isNaN(form.ticket_price.value)){
+				alert("时长和票价不是数字");
 				return;
 			}
-			var url = "../../PlayServlet";
+			var url = "/PlayServlet";
 			if (window.XMLHttpRequest)
 				req = new XMLHttpRequest();
 			else if (window.ActiveXObject)
@@ -149,15 +149,19 @@
 				req.open("post", url, true);
 				req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				req.onreadystatechange = checkComplete;
-				var data ="&id=" + form.id.value
-						+ "&name="+ encodeURIComponent(form.name.value)
-						+ "&introduction="+ encodeURIComponent(form.introduction.value)
-						+ "&length=" + form.length.value
-						+ "&ticket_price=" + form.ticket_price.value
-						+ "&language=" + form.language.value
-						+ "&play_type=" + form.play_type.value;
-				console.log(data)
-				// req.send(data);
+
+				var form_data = new FormData()
+				console.log(form.type.value)
+				form_data.append("type", form.type.value)
+				form_data.append("name", form.name.value)
+				form_data.append("introduction", form.introduction.value)
+				form_data.append("length", form.length.value)
+				form_data.append("ticket_price", form.ticket_price.value)
+				form_data.append("language", form.language.value)
+				form_data.append("play_type", form.play_type.value)
+				form_data.append("image", form.image.value)
+
+				req.send(form_data);
 			}
 		}
 
@@ -410,6 +414,13 @@
 				<div class="col-sm-6">
 					<input type="text" class="form-control" name="play_type"
 						   id="play_type" placeholder="请输入剧目类型">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">剧目海报</label>
+				<div class="col-sm-6">
+					<input type="file" class="form-control" name="image"
+						   id="image" placeholder="请输入剧目海报">
 				</div>
 			</div>
 			<div class="form-group">

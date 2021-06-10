@@ -15,8 +15,9 @@ public class CustomerDAO implements ICustomerDAO {
         try {
             DBUtil db = new DBUtil();
             db.openConnection();
-            String sql = String.format("select * from customer where cus_name = '%s' and cus_paypwd = '%s'",
-                    customer.getCusName(), customer.getCusPaypwd());
+            String sql = String.format("select * from customer where cus_name = '%s' and cus_paypwd = '%s'" +
+                            " and cus_balance >= '%d'",
+                    customer.getCusName(), customer.getCusPaypwd(), amount);
             ResultSet rst = db.execQuery(sql);
             if (rst == null || !rst.next()) {
                 return 0;

@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import xupt.se.ttms.entity.Play;
 import xupt.se.ttms.service.PlayService;
@@ -22,6 +24,7 @@ public class PlayServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
+        System.out.println(req.getParameter("name"));
         int id = 0;
         if (type.equalsIgnoreCase("add"))
             add(req, resp);
@@ -40,7 +43,23 @@ public class PlayServlet extends HttpServlet {
             play = new Play();
             play.setPlayName(request.getParameter("name"));
             play.setPlayIntroduction(request.getParameter("introduction"));
-//            play.setPlayImage(request.getParameter("image"));
+            Part part = request.getPart("image");
+            String partHeader = part.getHeader("Content-Disposition");
+            String image_name = partHeader.substring(partHeader.lastIndexOf("=")+2, partHeader.length()-1);
+
+            System.out.println(image_name);
+
+            if (image_name != "") {
+                String image_dir_path = request.getServletContext().getRealPath("/images/property");
+                File image_dir = new File(image_dir_path);
+                if (!image_dir.exists()) {
+                    image_dir.mkdir();
+                }
+                part.write(image_dir_path + image_name);
+            } else {
+                throw new Exception("No file");
+            }
+            play.setPlayImage(image_name);
             play.setPlayLength(Long.valueOf(request.getParameter("length")));
             play.setPlayTicketPrice(Long.valueOf(request.getParameter("ticket_price")));
             play.setLanguage(request.getParameter("language"));
@@ -50,14 +69,14 @@ public class PlayServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
 
             if (new PlayService().add(play) == 1)
-                out.write("数据添加成功");
+                out.write("true");
             else
-                out.write("数据添加失败，请重试");
+                out.write("false");
 
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write("操作错误，请重试");
+            response.getWriter().write("false");
         }
     }
 

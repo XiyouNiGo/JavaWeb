@@ -17,6 +17,7 @@ import xupt.se.util.MD5Utils;
 public class CustomerService implements ICustomerService {
     @Override
     public int pay(int amount, Customer customer) {
+        List<Customer> customerList = customerDAO.select(customer.getCusName());
         return customerDAO.update_balance(-amount, customer);
     }
 
@@ -29,6 +30,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public void login(HttpServletRequest req, HttpServletResponse resp, boolean forward) throws IOException {
+        System.out.println(req.getServletContext().getRealPath("/images/property"));
         String uname = null, passwd = null;
         boolean uname_cookie = false, passwd_cookie = false;
 

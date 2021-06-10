@@ -18,10 +18,10 @@ public class PlayDAO implements IPlayDAO {
             IDataDictDAO dataDictDAO = DataDictDAOFactory.createDataDictDAO();
             String dict_lang_id = dataDictDAO.getDictId(play.getLanguage());
             String dict_type_id = dataDictDAO.getDictId(play.getPlayType());
-            String sql = String.format("insert into play(play_name, play_introduction, "
+            String sql = String.format("insert into play(play_name, play_image, play_introduction, "
                             + "play_length, play_ticket_price, play_status, dict_lang_id, dict_type_id)"
-                            + " values('%s', '%s', '%s', '%ld', '%lf', '%ld', '%s', '%s')", play.getPlayName(),
-                    play.getPlayIntroduction(),
+                            + " values('%s', '%s', '%s', '%d', '%f', '%d', '%s', '%s')", play.getPlayName(),
+                    play.getPlayImage(), play.getPlayIntroduction(),
                     play.getPlayLength(), play.getPlayTicketPrice(),
                     play.getPlayStatus(), dict_lang_id, dict_type_id);
             DBUtil db = new DBUtil();
