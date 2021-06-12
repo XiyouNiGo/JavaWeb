@@ -15,7 +15,7 @@ public class ScheduleDAO implements IScheduleDAO {
         try {
             String sql = String.format("insert into schedule(studio_id, play_id, sched_time, "
                             + "sched_ticket_price, sched_status)"
-                            + " values('%ld', '%ld', '%s', '%lf', '%ld')", schedule.getStudioId(),
+                            + " values('%d', '%d', '%s', '%f', '%d')", schedule.getStudioId(),
                     schedule.getPlayId(), schedule.getSchedTime().toString(),
                     schedule.getSchedTicketPrice(), schedule.getSchedStatus());
             DBUtil db = new DBUtil();
@@ -38,9 +38,9 @@ public class ScheduleDAO implements IScheduleDAO {
     public int update(Schedule schedule) {
         int result = 0;
         try {
-            String sql = String.format("update schedule set studio_id = '%ld', play_id = '%ld', "
-                            + "sched_time = '%s', sched_ticket_price = '%lf', sched_status = '%ld'"
-                            + " where sched_id = '%ld'",
+            String sql = String.format("update schedule set studio_id = '%d', play_id = '%d', "
+                            + "sched_time = '%s', sched_ticket_price = '%f', sched_status = '%d'"
+                            + " where sched_id = '%d'",
                     schedule.getStudioId(), schedule.getPlayId(), schedule.getSchedTime().toString(),
                     schedule.getSchedTicketPrice(), schedule.getSchedStatus(), schedule.getSchedId());
             DBUtil db = new DBUtil();
@@ -75,7 +75,7 @@ public class ScheduleDAO implements IScheduleDAO {
         List<Schedule> scheduleList = new LinkedList<Schedule>();
         try {
             ID.trim();
-            String sql = "select * from schedule where sched_id like '%" + ID + "%'";
+            String sql = "select * from schedule where studio_id like '%" + ID + "%'";
             db = new DBUtil();
             if (!db.openConnection()) {
                 System.out.print("fail to connect database");

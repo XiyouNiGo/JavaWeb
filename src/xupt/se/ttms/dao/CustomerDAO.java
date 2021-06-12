@@ -101,10 +101,7 @@ public class CustomerDAO implements ICustomerDAO {
                     customer.setCusGender(rst.getLong("cus_gender"));
                     customer.setCusTelnum(rst.getString("cus_telnum"));
                     customer.setCusEmail(rst.getString("cus_email"));
-                    customer.setCusUid(rst.getString("cus_uid"));
-                    customer.setCusPwd(rst.getString("cus_pwd"));
                     customer.setCusBalance(rst.getDouble("cus_balance"));
-                    customer.setCusPaypwd(rst.getString("cus_paypwd"));
                     customerList.add(customer);
                 }
             }

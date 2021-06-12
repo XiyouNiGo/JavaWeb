@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>汉唐剧院管理系统-影厅管理</title>
@@ -147,11 +147,14 @@
 			if (req) {
 				//采用POST方式，异步传输
 				req.open("post", url, true);
-				req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				req.onreadystatechange = checkComplete;
+				// req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				req.onreadystatechange = function () {
+					if (req.readyState == 4 && req.status == 200) {
+						alert(req.responseText);
+					}
+				};
 
 				var form_data = new FormData()
-				console.log(form.type.value)
 				form_data.append("type", form.type.value)
 				form_data.append("name", form.name.value)
 				form_data.append("introduction", form.introduction.value)
@@ -159,17 +162,12 @@
 				form_data.append("ticket_price", form.ticket_price.value)
 				form_data.append("language", form.language.value)
 				form_data.append("play_type", form.play_type.value)
-				form_data.append("image", form.image.value)
+				form_data.append("image", form.image.files[0])
 
 				req.send(form_data);
 			}
 		}
 
-		function checkComplete() {
-			if (req.readyState == 4 && req.status == 200) {
-				alert(req.responseText);
-			}
-		}
 	</script>
 </head>
 <body onload="init()">
@@ -420,7 +418,7 @@
 				<label class="col-sm-2 control-label">剧目海报</label>
 				<div class="col-sm-6">
 					<input type="file" class="form-control" name="image"
-						   id="image" placeholder="请输入剧目海报">
+						   id="image">
 				</div>
 			</div>
 			<div class="form-group">

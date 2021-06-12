@@ -1,7 +1,12 @@
 package xupt.se.ttms.controller;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +32,40 @@ public class CustomerServlet extends HttpServlet {
             register(req, resp);
         else if (type.equalsIgnoreCase("recharge"))
             recharge(req, resp);
+        else if (type.equalsIgnoreCase("search"))
+            search(req, resp);
+    }
+
+    private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        String uname = request.getParameter("uname");
+        List<Customer> result = null;
+        if (uname != null && uname.length() > 0)
+            result = new CustomerService().Fetch(uname);
+        else
+            result = new CustomerService().FetchAll();
+        String jsonStr = "";
+        try {
+            JSONArray array = new JSONArray();
+            JSONObject json;
+            for (Customer customer : result) {
+                json = new JSONObject();
+                json.put("uname", customer.getCusName());
+                json.put("gender", customer.getCusGender());
+                json.put("telnum", customer.getCusTelnum());
+                json.put("email", customer.getCusEmail());
+                json.put("balance", customer.getCusBalance());
+                array.put(json);
+            }
+            jsonStr = array.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            out.println(jsonStr);
+            out.flush();
+            out.close();
+        }
     }
 
     private void recharge(HttpServletRequest req, HttpServletResponse resp) throws IOException {

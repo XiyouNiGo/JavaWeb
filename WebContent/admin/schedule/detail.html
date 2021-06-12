@@ -112,52 +112,51 @@
 		//alert(type);
 		document.getElementById("type").value = type;
 		if(type=="update"){
-			var schedule_ID = UrlParm.parm("schedule_ID");
-			var studio_name = UrlParm.parm("studio_name");
-			var name = UrlParm.parm("name");
-			var schedule_time = UrlParm.parm("schedule_time");
-			var schedule_endtime = UrlParm.parm("schedule_endtime");
-			var ticket_price = UrlParm.parm("ticket_price");
-			document.getElementById("schedule_ID").value = schedule_ID;
-			document.getElementById("studio_name").value = studio_name;
-			document.getElementById("name").value = name;
-			document.getElementById("schedule_time").value = schedule_time;
-			document.getElementById("schedule_endtime").value = schedule_endtime;
-			document.getElementById("ticket_price").value = ticket_price;
+			var id = UrlParm.parm("id");
+			var studio_id = UrlParm.parm("studio_id");
+			var play_id = UrlParm.parm("play_id");
+			var sched_time = UrlParm.parm("sched_time");
+			var sched_ticket_price = UrlParm.parm("sched_ticket_price");
+			var sched_status = UrlParm.parm("sched_status");
+			document.getElementById("id").value = id;
+			document.getElementById("studio_id").value = studio_id;
+			document.getElementById("play_id").value = play_id;
+			document.getElementById("sched_time").value = sched_time;
+			document.getElementById("sched_ticket_price").value = sched_ticket_price;
+			document.getElementById("sched_status").value = sched_status;
 		}
 	}
 
 	function check() {
 		var form = document.getElementById("myform");
-		if(form.studio_name.value=="" || form.name.value=="" || form.schedule_time.value=="" || form.schedule_endtime.value==""|| form.ticket_price.value=="") {
+		if (form.studio_id.value == "" || form.play_id.value == "" || form.sched_time.value == "" || form.sched_ticket_price.value == "" || form.sched_status.value == "") {
 			alert("请填写完整信息");
 			return;
 		}
-		
-		}
 		var url = "/ScheduleServlet";
-	    if (window.XMLHttpRequest)
-	        req = new XMLHttpRequest();
-	    else if (window.ActiveXObject)
-	        req = new ActiveXObject("Microsoft.XMLHTTP");
+		if (window.XMLHttpRequest)
+			req = new XMLHttpRequest();
+		else if (window.ActiveXObject)
+			req = new ActiveXObject("Microsoft.XMLHTTP");
 		if (req) {
 			//采用POST方式，异步传输
 			req.open("post", url, true);
 			req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			req.onreadystatechange = checkComplete;
-			var data 
-					  "studio_name="+ encodeURIComponent(form.studio_name.value)
-					+ "&name="+ encodeURIComponent(form.name.value) 
-					+ "&schedule_time=" + form.schedule_time.value
-					+ "&schedule_endtime=" + form.schedule_endtime.value
-					+ "&ticket_price=" + form.ticket_price.value;
+			var data = "type=" + form.type.value
+					+ "&id=" + encodeURIComponent(form.id.value)
+					+ "&sched_status=" + form.sched_status.value
+					+ "&studio_id=" + encodeURIComponent(form.studio_id.value)
+					+ "&play_id=" + form.play_id.value
+					+ "&sched_time=" + form.sched_time.value
+					+ "&sched_ticket_price=" + form.sched_ticket_price.value;
 			req.send(data);
 		}
-	
-	
-	function checkComplete() {
-		if (req.readyState == 4 && req.status == 200) {
-			alert(req.responseText);
+
+		function checkComplete() {
+			if (req.readyState == 4 && req.status == 200) {
+				alert(req.responseText);
+			}
 		}
 	}
 </script>
@@ -360,43 +359,43 @@
 				<div class="form-group">
 					<label class="col-sm-2 control-label">计划编号</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" name="schedule_ID"
+						<input type="text" class="form-control" name="id"
 							id="id" disabled="disabled">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-2 control-label">影厅名称</label>
+					<label class="col-sm-2 control-label">影厅编号</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" name="studio_name"
-							id="studio_name" placeholder="请输入影厅名">
+						<input type="text" class="form-control" name="studio_id"
+							id="studio_id" placeholder="请输入影厅编号">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-2 control-label">剧目名称</label>
+					<label class="col-sm-2 control-label">剧目编号</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" name="name"
-							id="name" placeholder="请输入剧目名称">
+						<input type="text" class="form-control" name="play_id"
+							id="play_id" placeholder="请输入剧目编号">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-2 control-label">开始时间</label>
+					<label class="col-sm-2 control-label">放映时间</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" name="schedule_time"
-							id="schedule_time" placeholder="请输入开始时间">
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-2 control-label">结束时间</label>
-					<div class="col-sm-6">
-						<input type="text" class="form-control" name="schedule_endtime"
-							id="schedule_endtime" placeholder="请输入结束时间">
+						<input type="text" class="form-control" name="sched_time"
+							id="sched_time" placeholder="请输入放映时间">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-2 control-label">票价</label>
 					<div class="col-sm-6">
-						<input type="text" class="form-control" name="ticket_price"
-							id="ticket_price" placeholder="请输入票价">
+						<input type="text" class="form-control" name="sched_ticket_price"
+							id="sched_ticket_price" placeholder="请输入票价">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">状态</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" name="sched_status"
+							id="sched_status" placeholder="请输入状态">
 					</div>
 				</div>
 				<div class="form-group">

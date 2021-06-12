@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xupt.se.ttms.entity.Schedule;
-import xupt.se.ttms.service.PlayService;
 import xupt.se.ttms.service.ScheduleService;
 
 @WebServlet("/ScheduleServlet")
@@ -39,12 +38,13 @@ public class ScheduleServlet extends HttpServlet {
         Schedule schedule = null;
         int id = 0;
         try {
-            long studio_id = Long.valueOf(request.getParameter("studio_id"));
-            long play_id = Long.valueOf(request.getParameter("play_id"));
-            Timestamp sched_time = Timestamp.valueOf(request.getParameter("sched_time"));
-            double sched_ticket_price = Double.valueOf(request.getParameter("sched_ticket_price"));
-            long sched_status = Long.valueOf(request.getParameter("sched_status"));
-            schedule = new Schedule(studio_id, play_id, sched_time, sched_ticket_price, sched_status);
+            schedule = new Schedule();
+            schedule.setStudioId(Long.valueOf(request.getParameter("studio_id")));
+            schedule.setPlayId(Long.valueOf(request.getParameter("play_id")));
+            schedule.setSchedTime(Timestamp.valueOf(request.getParameter("sched_time")));
+            schedule.setSchedTicketPrice(Double.valueOf(request.getParameter("sched_ticket_price")));
+            schedule.setSchedStatus(Long.valueOf(request.getParameter("sched_status")));
+
             PrintWriter out = response.getWriter();
 
             if (new ScheduleService().add(schedule) == 1)
@@ -64,7 +64,7 @@ public class ScheduleServlet extends HttpServlet {
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             PrintWriter out = response.getWriter();
-            out.write("" + new PlayService().delete(id));
+            out.write("" + new ScheduleService().delete(id));
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,12 +77,15 @@ public class ScheduleServlet extends HttpServlet {
         Schedule schedule  = null;
         int id = 0;
         try {
-            long studio_id = Long.valueOf(request.getParameter("studio_id"));
-            long play_id = Long.valueOf(request.getParameter("play_id"));
-            Timestamp sched_time = Timestamp.valueOf(request.getParameter("sched_time"));
-            double sched_ticket_price = Double.valueOf(request.getParameter("sched_ticket_price"));
-            long sched_status = Long.valueOf(request.getParameter("sched_status"));
-            schedule = new Schedule(studio_id, play_id, sched_time, sched_ticket_price, sched_status);
+            schedule = new Schedule();
+            schedule.setSchedId(Long.valueOf(request.getParameter("id")));
+            schedule.setStudioId(Long.valueOf(request.getParameter("studio_id")));
+            schedule.setPlayId(Long.valueOf(request.getParameter("play_id")));
+            schedule.setSchedTime(Timestamp.valueOf(request.getParameter("sched_time")));
+            schedule.setSchedTicketPrice(Double.valueOf(request.getParameter("sched_ticket_price")));
+            System.out.println(request.getParameter("sched_status"));
+            schedule.setSchedStatus(Long.valueOf(request.getParameter("sched_status")));
+
             PrintWriter out = response.getWriter();
 
             if (new ScheduleService().modify(schedule) == 1)
@@ -100,10 +103,10 @@ public class ScheduleServlet extends HttpServlet {
     private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        String play_id = request.getParameter("play_id");
+        String studio_id = request.getParameter("studio_id");
         List<Schedule> result = null;
-        if (play_id != null && play_id.length() > 0)
-            result = new ScheduleService().Fetch(play_id);
+        if (studio_id != null && studio_id.length() > 0)
+            result = new ScheduleService().Fetch(studio_id);
         else
             result = new ScheduleService().FetchAll();
         String jsonStr = "";

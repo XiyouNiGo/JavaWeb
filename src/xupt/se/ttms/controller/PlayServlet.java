@@ -8,8 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +22,12 @@ import xupt.se.ttms.entity.Play;
 import xupt.se.ttms.service.PlayService;
 
 @WebServlet("/PlayServlet")
+@MultipartConfig
 public class PlayServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
-        System.out.println(req.getParameter("name"));
+        System.out.println("type:" + type);
         int id = 0;
         if (type.equalsIgnoreCase("add"))
             add(req, resp);
@@ -38,6 +41,7 @@ public class PlayServlet extends HttpServlet {
 
     private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
+        System.out.println("play add");
         Play play = null;
         try {
             play = new Play();
@@ -46,16 +50,18 @@ public class PlayServlet extends HttpServlet {
             Part part = request.getPart("image");
             String partHeader = part.getHeader("Content-Disposition");
             String image_name = partHeader.substring(partHeader.lastIndexOf("=")+2, partHeader.length()-1);
-
-            System.out.println(image_name);
-
+            System.out.println("image_name:" + image_name);
             if (image_name != "") {
-                String image_dir_path = request.getServletContext().getRealPath("/images/property");
+                String image_dir_path = request.getServletContext().getRealPath("/images/property/");
                 File image_dir = new File(image_dir_path);
                 if (!image_dir.exists()) {
                     image_dir.mkdir();
                 }
-                part.write(image_dir_path + image_name);
+                String file_name = UUID.randomUUID().toString();
+                String suffix = image_name.substring(image_name.lastIndexOf("."));
+                System.out.println(image_dir_path + file_name + suffix);
+                part.write(image_dir_path + file_name + suffix);
+                image_name = file_name;
             } else {
                 throw new Exception("No file");
             }
