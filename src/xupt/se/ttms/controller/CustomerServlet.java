@@ -108,19 +108,21 @@ public class CustomerServlet extends HttpServlet {
             Long gender = Long.valueOf(req.getParameter("gender"));
             String telnum = req.getParameter("telnum");
             String email = req.getParameter("email");
-            String uid = req.getParameter("uid");
-            Customer customer = new Customer(name, gender, telnum, email, uid);
+            String passwd = MD5Utils.MD5(req.getParameter("passwd")).substring(0, 20);
+            String paypwd = MD5Utils.MD5(req.getParameter("paypwd")).substring(0, 20);
+
+            Customer customer = new Customer(name, gender, telnum, email, passwd, paypwd);
             PrintWriter out = resp.getWriter();
 
             if (new CustomerService().modify(customer) == 1)
-                out.write("数据修改成功");
+                out.write("true");
             else
-                out.write("数据修改失败，请重试");
+                out.write("false");
 
             out.close();
         } catch (Exception exception) {
             exception.printStackTrace();
-            resp.getWriter().write("操作错误，请重试");
+            resp.getWriter().write("false");
         }
     }
 

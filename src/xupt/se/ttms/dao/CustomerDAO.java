@@ -67,9 +67,11 @@ public class CustomerDAO implements ICustomerDAO {
     public int update(Customer customer) {
         int result = 0;
         try {
-            String sql = String.format("update customer set cus_name = '%s', cus_gender = '%s', "
-                            + "cus_telnum = '%s', cus_email = '%s' where cus_id = '%ld'", customer.getCusName(),
-            customer.getCusGender(), customer.getCusTelnum(), customer.getCusEmail(), customer.getCusId());
+            String sql = String.format("update customer set cus_name = '%s', cus_gender = '%d', "
+                            + "cus_telnum = '%s', cus_email = '%s', cus_pwd = '%s', cus_paypwd = '%s' "
+                            + "where cus_name = '%s'", customer.getCusName(),
+                    customer.getCusGender(), customer.getCusTelnum(), customer.getCusEmail(),
+                    customer.getCusPwd(), customer.getCusPaypwd(), customer.getCusName());
             DBUtil db = new DBUtil();
             db.openConnection();
             result = db.execCommand(sql);
@@ -101,7 +103,9 @@ public class CustomerDAO implements ICustomerDAO {
                     customer.setCusGender(rst.getLong("cus_gender"));
                     customer.setCusTelnum(rst.getString("cus_telnum"));
                     customer.setCusEmail(rst.getString("cus_email"));
+                    customer.setCusPwd(rst.getString("cus_pwd"));
                     customer.setCusBalance(rst.getDouble("cus_balance"));
+                    customer.setCusPaypwd(rst.getString("cus_paypwd"));
                     customerList.add(customer);
                 }
             }

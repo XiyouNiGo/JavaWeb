@@ -11,12 +11,45 @@
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/theme.css">
+    <script src="../js/cookie.js"></script>
     <script type="text/javascript">
         function init() {
-            if (getCookie("uname") != "" && getCookie("passwd") != "") {
-                login()
+            if (getCookie("uname") == "") {
+                window.location="login.html";
             } else {
-
+                document.getElementById("uname").value = getCookie("uname");
+                search()
+            }
+        }
+        function search() {
+            var url = "/CustomerServlet";
+            if (window.XMLHttpRequest)
+                req = new XMLHttpRequest();
+            else if (window.ActiveXObject)
+                req = new ActiveXObject("Microsoft.XMLHTTP");
+            if (req) {
+                //采用POST方式，异步传输
+                req.open("post", url, true);
+                //POST方式，必须加入如下头信息设定
+                req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                req.onreadystatechange = function () {
+                    console.log("readState:" + req.readyState)
+                    console.log("state:" + req.status)
+                    if (req.readyState == 4 && req.status == 200) {
+                        var json =  JSON.parse(req.responseText);
+                        var uname = json[0].uname;
+                        var gender = json[0].gender;
+                        var telnum = json[0].telnum;
+                        var email = json[0].email;
+                        var  balance = json[0].balance;
+                        document.getElementById("uname").value = uname;
+                        document.getElementById("gender").value = gender;
+                        document.getElementById("telnum").value = telnum;
+                        document.getElementById("email").value = email;
+                        document.getElementById("balance").value = balance;
+                    }
+                };
+                req.send("type=search&uname="+getCookie("uname"));
             }
         }
         function setimfo(){
@@ -34,20 +67,20 @@
                     console.log("readState:" + req.readyState)
                     console.log("state:" + req.status)
                     if (req.readyState == 4 && req.status == 200) {
-                        var json =  JSON.parse(req.responseText);
-                        var uname = json.uname;
-                        var gender = json.gender;
-                        var telnum = jsom.telnum;
-                        var email = json.email;
-                        var  balance = ksom.balance;
-                        document.getElementById("uname").value = uname;
-                        document.getElementById("gender").value = gender;
-                        document.getElementById("telnum").value = telnum;
-                        document.getElementById("email").value = email;
-                        document.getElementById("balance").value = balance;
+                        if (req.responseText == "true") {
+                            alert("设置成功");
+                            window.location = "index.html";
+                        } else {
+                            alert("设置失败");
+                        }
                     }
                 };
-                req.send("type=setimfo&uname="+getCookie("uname")+"&passwd="+getCookie("passwd"));
+                req.send("type=setimfo&uname=" + document.getElementById("uname")
+                    + "&gender=" + document.getElementById("gender")
+                    + "&telnum=" + document.getElementById("telnum")
+                    + "&email=" + document.getElementById("email")
+                    + "&passwd=" + document.getElementById("passwd")
+                    + "&paypwd=" + document.getElementById("paypwd"));
             }
         }
     </script>
@@ -80,28 +113,36 @@
 <div id="contact-page" class="contact-page-var-one">
     <div class="container">
         <div class="row">
-            <form method="post" class="layui-form" action="#">
-                <table align="center">
+            <form method="post" class="layui-form" action="#" id="myform">
+                <table align="center" id="table">
                     <tr>
                         <td><font size="5">用户名：</font><hr class="hr15"></td>
-                        <td><input type="text" id="uname" placeholder="" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
+                        <td><input type="text" id="uname" placeholder="请输入用户名" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
                     </tr>
                     <tr>
                         <td><font size=5>性别：</font><hr class="hr15"></td>
-                        <td><input type="text" id="gender" placeholder="" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
+                        <td><input type="text" id="gender" placeholder="请输入性别" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
                     </tr>
                     <tr>
                         <td><font size=5>电话：</font><hr class="hr15"></td>
-                        <td><input type="text" id="telnum" placeholder="" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
+                        <td><input type="text" id="telnum" placeholder="请输入电话" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
                     </tr>
                     <tr>
                         <td><font size=5>邮箱：</font><hr class="hr15"></td>
-                        <td><input type="text" id="email" placeholder="" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
+                        <td><input type="text" id="email" placeholder="请输入邮箱" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
                     </tr>
                     <tr>
                         <td><font size=5>余额：</font><hr class="hr15"></td>
-                        <td><input type="text" id="passwd" placeholder="" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
+                        <td><input disabled="disabled" type="text" id="balance" placeholder="余额不可修改" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
                         <td><input type="button" style="margin-top: 5px; margin-left: 10px;" value="充值"  style="font-size:18px;width:100%;" onclick="javascript:window.location='recharge.html'"><hr class="hr15"></td>
+                    </tr>
+                    <tr>
+                        <td><font size=5>密码：</font><hr class="hr15"></td>
+                        <td><input type="text" id="passwd" placeholder="已经过MD5加密" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
+                    </tr>
+                    <tr>
+                        <td><font size=5>支付密码：</font><hr class="hr15"></td>
+                        <td><input type="text" id="paypwd" placeholder="已经过MD5加密" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="center"><input type="button" value="设置" style="font-size:18px;width:100%;" onclick="setimfo()"></td>
@@ -118,6 +159,6 @@
 <script src="../js/jquery-ui.min.js"></script>
 <script src="../js/jquery.form.min.js"></script>
 <script src="../js/jquery.validate.min.js"></script>
-<script src="../js/theme.js"></script>
+<!--<script src="../js/theme.js"></script>-->
 </body>
 </html>

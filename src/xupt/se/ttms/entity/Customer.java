@@ -16,12 +16,13 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String cusName, long cusGender, String cusTelnum, String cusEmail, String cusUid) {
+    public Customer(String cusName, long cusGender, String cusTelnum, String cusEmail, String cusPwd, String cusPaypwd) {
         this.cusName = cusName;
         this.cusGender = cusGender;
         this.cusTelnum = cusTelnum;
         this.cusEmail = cusEmail;
-        this.cusUid = cusUid;
+        this.cusPwd = cusPwd;
+        this.cusPaypwd = cusPaypwd;
     }
 
     public long getCusId() {
