@@ -48,7 +48,6 @@ public class CustomerService implements ICustomerService {
         }
         if (uname_cookie == false && passwd_cookie == false) {
             uname = req.getParameter("uname");
-//            passwd = req.getParameter("passwd");
             passwd = MD5Utils.MD5(req.getParameter("passwd")).substring(0, 20);
         }
         try {

@@ -1,314 +1,321 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
- <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>汉唐剧院管理系统-首页</title>
-  <!-- Styles -->
-<!--  <link rel="stylesheet" href="../css/my.css" />-->
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="../css/bootstrap.css" />
-  <link rel="stylesheet" href="../css/font-awesome.min.css" />
-  <link rel="stylesheet" href="../css/slick.css" />
-  <link rel="stylesheet" href="../css/slicknav.css" />
-  <link rel="stylesheet" href="../css/animate.css" />
-  <link rel="stylesheet" href="../css/theme.css" />
-  <script type="text/javascript">
-   function search(){
-    var url = "/PlayServlet";
-    if (window.XMLHttpRequest)
-     req = new XMLHttpRequest();
-    else if (window.ActiveXObject)
-     req = new ActiveXObject("Microsoft.XMLHTTP");
-    if (req) {
-     //采用POST方式，异步传输
-     req.open("post", url, true);
-     //POST方式，必须加入如下头信息设定
-     req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-     req.onreadystatechange = searchComplete;
-     console.log(document.getElementById("play_name").value)
-     req.send("type=search&name="+document.getElementById("play_name").value);
-    }
-   }
-   function get_play_html(id, name, introduction, image, length, ticket_price, language, play_type) {
-    var play_html = "     <div class=\"col-lg-3 col-sm-6 layout-item-wrap\">\n" +
-            "      <article class=\"property layout-item clearfix\">\n" +
-            "       <figure class=\"feature-image\">\n" +
-            "        <a class=\"clearfix zoom\" href=\"#\"><img data-action=\"zoom\" src=\"../images/property/" +
-            image + "\" alt=\"Property Image\" /></a>\n" +
-            "       </figure>\n" +
-            "       <div class=\"property-contents clearfix\">\n" +
-            "        <header class=\"property-header clearfix\">\n" +
-            "         <div class=\"pull-left\">\n" +
-            "          <h6 class=\"entry-title\">" + name + "</h6>\n" +
-            "          <span class=\"property-location\">\n" +
-            "             <i class=\"fa fa-map-marker\"></i>" + play_type + "\n" +
-            "         </span>\n" +
-            "         </div>\n" +
-            "         <button class=\"btn btn-primary btn-price pull-right btn-3d\" data-hover=\"详情\" onclick=\"javascript:window.location='schedule.html?" +
-            "id=" + id + "&name=" + name+ "&introduction=" + introduction +
-            "&image=" + image + "&length=" + length + "&ticket_price=" + ticket_price +
-            "&language=" + language + "&play_type=" + play_type +
-            "'\"><strong>详情</strong></button>\n" +
-            "        </header>\n" +
-            "       </div>\n" +
-            "      </article>\n" +
-            "     </div>";
-    return play_html;
-   }
-   function searchComplete() {
-    if (req.readyState == 4 && req.status == 200) {
-     var plays = document.getElementById("plays");
-     plays.innerHTML = "";
-     var json = JSON.parse(req.responseText);
-     var html_string = "";
-     for (i = 0; i < json.length; i++) {
-      html_string = html_string + get_play_html(json[i].id, json[i].name, json[i].introduction,
-              json[i].image, json[i].length, json[i].ticket_price, json[i].language, json[i].play_type);
-     }
-     plays.innerHTML = html_string;
-    }
-   }
-  </script>
-   </head>
- <body class="" onload="search()">
-  <header id="site-header">
-   <div class="container">
-    <div class="row">
-     <div class="col-md-2" style="margin:5px">
-       <a href="index.html"><img src="../images/logo.png" width="127" height="48"/></a>
-     </div>
-     <div class="col-md-9">
-      <nav id="site-nav" class="nav navbar-default">
-       <ul class="nav navbar-nav">
-        <li><a href="index.html">主页</a></li>
-        <li><a href="board.html">榜单</a></li>
-        <li><a href="contact.html">联系我们</a></li>
-        <li><a href="login.html">登陆</a></li>
-        <li><a href="information.html">个人中心</a></li>
-       </ul>
-      </nav>
-     </div>
-    </div>
-   </div>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>汉唐剧院管理系统-首页</title>
+    <!-- Styles -->
+    <!--  <link rel="stylesheet" href="../css/my.css" />-->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../css/bootstrap.css"/>
+    <link rel="stylesheet" href="../css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../css/slick.css"/>
+    <link rel="stylesheet" href="../css/slicknav.css"/>
+    <link rel="stylesheet" href="../css/animate.css"/>
+    <link rel="stylesheet" href="../css/theme.css"/>
+    <script type="text/javascript">
+        function search() {
+            var url = "/PlayServlet";
+            if (window.XMLHttpRequest)
+                req = new XMLHttpRequest();
+            else if (window.ActiveXObject)
+                req = new ActiveXObject("Microsoft.XMLHTTP");
+            if (req) {
+                //采用POST方式，异步传输
+                req.open("post", url, true);
+                //POST方式，必须加入如下头信息设定
+                req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                req.onreadystatechange = searchComplete;
+                console.log(document.getElementById("play_name").value)
+                req.send("type=search&name=" + document.getElementById("play_name").value);
+            }
+        }
 
-  <!--轮播图-->
-  </header>
-  <div class="main-slider-wrapper clearfix">
-   <div id="main-slider">
-    <div class="slide"><img src="../images/slider/1.jpg"/></div>
-    <div class="slide"><img src="../images/slider/2.jpg"/></div>
-    <div class="slide"><img src="../images/slider/3.jpg"/></div>
-    <div class="slide"><img src="../images/slider/4.png"/></div>
-   </div>
-   <div id="slider-contents">
-    <div class="container text-center">
-     <div class="jumbotron">
-      <h1>寻找您的理想剧目</h1>
-      <div class="contents clearfix">
-       <p>汉唐剧院是观众喜爱的观影平台，为您提供了在线详情服务。<br />
-          同时还为您提供剧目预告片、票房查询、剧目排行榜、剧目资讯等信息。</p>
-      </div>
-     </div>
-    </div>
-   </div>
-  </div>
+        function get_play_html(id, name, introduction, image, length, ticket_price, language, play_type) {
+            var play_html = "     <div class=\"col-lg-3 col-sm-6 layout-item-wrap\">\n" +
+                "      <article class=\"property layout-item clearfix\">\n" +
+                "       <figure class=\"feature-image\">\n" +
+                "        <a class=\"clearfix zoom\" href=\"#\"><img data-action=\"zoom\" src=\"../images/property/" +
+                image + "\" alt=\"Property Image\" /></a>\n" +
+                "       </figure>\n" +
+                "       <div class=\"property-contents clearfix\">\n" +
+                "        <header class=\"property-header clearfix\">\n" +
+                "         <div class=\"pull-left\">\n" +
+                "          <h6 class=\"entry-title\">" + name + "</h6>\n" +
+                "          <span class=\"property-location\">\n" +
+                "             <i class=\"fa fa-map-marker\"></i>" + play_type + "\n" +
+                "         </span>\n" +
+                "         </div>\n" +
+                "         <button class=\"btn btn-primary btn-price pull-right btn-3d\" data-hover=\"详情\" onclick=\"javascript:window.location='schedule.html?" +
+                "id=" + id + "&name=" + name + "&introduction=" + introduction +
+                "&image=" + image + "&length=" + length + "&ticket_price=" + ticket_price +
+                "&language=" + language + "&play_type=" + play_type +
+                "'\"><strong>详情</strong></button>\n" +
+                "        </header>\n" +
+                "       </div>\n" +
+                "      </article>\n" +
+                "     </div>";
+            return play_html;
+        }
 
-  <!--搜索-->
-  <div id="advance-search" class="main-page clearfix">
+        function searchComplete() {
+            if (req.readyState == 4 && req.status == 200) {
+                var plays = document.getElementById("plays");
+                plays.innerHTML = "";
+                var json = JSON.parse(req.responseText);
+                var html_string = "";
+                for (i = 0; i < json.length; i++) {
+                    html_string = html_string + get_play_html(json[i].id, json[i].name, json[i].introduction,
+                        json[i].image, json[i].length, json[i].ticket_price, json[i].language, json[i].play_type);
+                }
+                plays.innerHTML = html_string;
+            }
+        }
+    </script>
+</head>
+<body class="" onload="search()">
+<header id="site-header">
     <div class="container">
-      <button class="btn top-btn">寻找您的剧目</button>
-      <form action="#" id="adv-search-form" class="clearfix">
-        <input type="text" id="play_name" name="filmname" placeholder="请输入剧目名" aria-required="true" required="required">
-        <button type="button" class="btn btn-primary btn-lg" onclick="search()">查询</button>
-      </form>
+        <div class="row">
+            <div class="col-md-2" style="margin:5px">
+                <a href="index.html"><img src="../images/logo.png" width="127" height="48"/></a>
+            </div>
+            <div class="col-md-9">
+                <nav id="site-nav" class="nav navbar-default">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html">主页</a></li>
+                        <li><a href="board.html">榜单</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                        <li><a href="login.html">登陆</a></li>
+                        <li><a href="information.html">个人中心</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!--剧目列表-->
-  <section id="home-property-listing">
-   <div class="container">
-    <div class="row" id="plays">
-     <div class="col-lg-3 col-sm-6 layout-item-wrap">
-      <article class="property layout-item clearfix">
-       <figure class="feature-image">
-        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/1.jpg" alt="Property Image" /></a>
-       </figure>
-       <div class="property-contents clearfix">
-        <header class="property-header clearfix">
-         <div class="pull-left">
-          <h6 class="entry-title">我和我的家乡</h6>
-          <span class="property-location">
+    <!--轮播图-->
+</header>
+<div class="main-slider-wrapper clearfix">
+    <div id="main-slider">
+        <div class="slide"><img src="../images/slider/1.jpg"/></div>
+        <div class="slide"><img src="../images/slider/2.jpg"/></div>
+        <div class="slide"><img src="../images/slider/3.jpg"/></div>
+        <div class="slide"><img src="../images/slider/4.png"/></div>
+    </div>
+    <div id="slider-contents">
+        <div class="container text-center">
+            <div class="jumbotron">
+                <h1>寻找您的理想剧目</h1>
+                <div class="contents clearfix">
+                    <p>汉唐剧院是观众喜爱的观影平台，为您提供了在线详情服务。<br/>
+                        同时还为您提供剧目预告片、票房查询、剧目排行榜、剧目资讯等信息。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--搜索-->
+<div id="advance-search" class="main-page clearfix">
+    <div class="container">
+        <button class="btn top-btn">寻找您的剧目</button>
+        <form action="#" id="adv-search-form" class="clearfix">
+            <input type="text" id="play_name" name="filmname" placeholder="请输入剧目名" aria-required="true"
+                   required="required">
+            <button type="button" class="btn btn-primary btn-lg" onclick="search()">查询</button>
+        </form>
+    </div>
+</div>
+
+<!--剧目列表-->
+<section id="home-property-listing">
+    <div class="container">
+        <div class="row" id="plays">
+            <div class="col-lg-3 col-sm-6 layout-item-wrap">
+                <article class="property layout-item clearfix">
+                    <figure class="feature-image">
+                        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom"
+                                                                                  src="../images/property/1.jpg"
+                                                                                  alt="Property Image"/></a>
+                    </figure>
+                    <div class="property-contents clearfix">
+                        <header class="property-header clearfix">
+                            <div class="pull-left">
+                                <h6 class="entry-title">我和我的家乡</h6>
+                                <span class="property-location">
              <i class="fa fa-map-marker"></i>喜剧片
          </span>
-         </div>
-         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=1'"><strong>详情</strong></button>
-        </header>
-       </div>
-      </article>
-     </div>
+                            </div>
+                            <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情"
+                                    onclick="javascript:window.location='schedule.html?playId=1'"><strong>详情</strong>
+                            </button>
+                        </header>
+                    </div>
+                </article>
+            </div>
 
-<!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
-<!--      <article class="property layout-item clearfix">-->
-<!--       <figure class="feature-image">-->
-<!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/2.jpg" alt="Property Image" /></a>-->
-<!--       </figure>-->
-<!--       <div class="property-contents clearfix">-->
-<!--        <header class="property-header clearfix">-->
-<!--         <div class="pull-left">-->
-<!--          <h6 class="entry-title">姜子牙</h6>-->
-<!--          <span class="property-location">-->
-<!--             <i class="fa fa-map-marker"></i>动漫片-->
-<!--         </span>-->
-<!--         </div>-->
-<!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=2'"><strong>详情</strong></button>-->
-<!--        </header>-->
-<!--       </div>-->
-<!--      </article>-->
-<!--     </div>-->
-<!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
-<!--      <article class="property layout-item clearfix">-->
-<!--       <figure class="feature-image">-->
-<!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/3.jpg" alt="Property Image" /></a>-->
-<!--       </figure>-->
-<!--       <div class="property-contents clearfix">-->
-<!--        <header class="property-header clearfix">-->
-<!--         <div class="pull-left">-->
-<!--          <h6 class="entry-title">夺冠</h6>-->
-<!--          <span class="property-location">-->
-<!--             <i class="fa fa-map-marker"></i>生活片-->
-<!--         </span>-->
-<!--         </div>-->
-<!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=3'"><strong>详情</strong></button>-->
-<!--        </header>-->
-<!--       </div>-->
-<!--      </article>-->
-<!--     </div>-->
-<!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
-<!--      <article class="property layout-item clearfix">-->
-<!--       <figure class="feature-image">-->
-<!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/4.jpg" alt="Property Image" /></a>-->
-<!--       </figure>-->
-<!--       <div class="property-contents clearfix">-->
-<!--        <header class="property-header clearfix">-->
-<!--         <div class="pull-left">-->
-<!--          <h6 class="entry-title">急先锋</h6>-->
-<!--          <span class="property-location">-->
-<!--             <i class="fa fa-map-marker"></i>动作片-->
-<!--         </span>-->
-<!--         </div>-->
-<!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=4'"><strong>详情</strong></button>-->
-<!--        </header>-->
-<!--       </div>-->
-<!--      </article>-->
-<!--     </div>-->
-<!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
-<!--      <article class="property layout-item clearfix">-->
-<!--       <figure class="feature-image">-->
-<!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/5.jpg" alt="Property Image" /></a>-->
-<!--       </figure>-->
-<!--       <div class="property-contents clearfix">-->
-<!--        <header class="property-header clearfix">-->
-<!--         <div class="pull-left">-->
-<!--          <h6 class="entry-title">七号房的礼物</h6>-->
-<!--          <span class="property-location">-->
-<!--             <i class="fa fa-map-marker"></i>生活片-->
-<!--         </span>-->
-<!--         </div>-->
-<!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=5'"><strong>详情</strong></button>-->
-<!--        </header>-->
-<!--       </div>-->
-<!--      </article>-->
-<!--     </div>-->
-<!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
-<!--      <article class="property layout-item clearfix">-->
-<!--       <figure class="feature-image">-->
-<!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/6.jpg" alt="Property Image" /></a>-->
-<!--       </figure>-->
-<!--       <div class="property-contents clearfix">-->
-<!--        <header class="property-header clearfix">-->
-<!--         <div class="pull-left">-->
-<!--          <h6 class="entry-title">天道王</h6>-->
-<!--          <span class="property-location">-->
-<!--             <i class="fa fa-map-marker"></i>战争片-->
-<!--         </span>-->
-<!--         </div>-->
-<!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=6'"><strong>详情</strong></button>-->
-<!--        </header>-->
-<!--       </div>-->
-<!--      </article>-->
-<!--     </div>-->
-<!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
-<!--      <article class="property layout-item clearfix">-->
-<!--       <figure class="feature-image">-->
-<!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/7.jpg" alt="Property Image" /></a>-->
-<!--       </figure>-->
-<!--       <div class="property-contents clearfix">-->
-<!--        <header class="property-header clearfix">-->
-<!--         <div class="pull-left">-->
-<!--          <h6 class="entry-title">一点就到家</h6>-->
-<!--          <span class="property-location">-->
-<!--             <i class="fa fa-map-marker"></i>生活片-->
-<!--         </span>-->
-<!--         </div>-->
-<!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=7'"><strong>详情</strong></button>-->
-<!--        </header>-->
-<!--       </div>-->
-<!--      </article>-->
-<!--     </div>-->
-<!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
-<!--      <article class="property layout-item clearfix">-->
-<!--       <figure class="feature-image">-->
-<!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/8.jpg" alt="Property Image" /></a>-->
-<!--       </figure>-->
-<!--       <div class="property-contents clearfix">-->
-<!--        <header class="property-header clearfix">-->
-<!--         <div class="pull-left">-->
-<!--          <h6 class="entry-title">喜宝</h6>-->
-<!--          <span class="property-location">-->
-<!--             <i class="fa fa-map-marker"></i>生活片-->
-<!--         </span>-->
-<!--         </div>-->
-<!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=8'"><strong>详情</strong></button>-->
-<!--        </header>-->
-<!--       </div>-->
-<!--      </article>-->
-<!--     </div>-->
+            <!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
+            <!--      <article class="property layout-item clearfix">-->
+            <!--       <figure class="feature-image">-->
+            <!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/2.jpg" alt="Property Image" /></a>-->
+            <!--       </figure>-->
+            <!--       <div class="property-contents clearfix">-->
+            <!--        <header class="property-header clearfix">-->
+            <!--         <div class="pull-left">-->
+            <!--          <h6 class="entry-title">姜子牙</h6>-->
+            <!--          <span class="property-location">-->
+            <!--             <i class="fa fa-map-marker"></i>动漫片-->
+            <!--         </span>-->
+            <!--         </div>-->
+            <!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=2'"><strong>详情</strong></button>-->
+            <!--        </header>-->
+            <!--       </div>-->
+            <!--      </article>-->
+            <!--     </div>-->
+            <!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
+            <!--      <article class="property layout-item clearfix">-->
+            <!--       <figure class="feature-image">-->
+            <!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/3.jpg" alt="Property Image" /></a>-->
+            <!--       </figure>-->
+            <!--       <div class="property-contents clearfix">-->
+            <!--        <header class="property-header clearfix">-->
+            <!--         <div class="pull-left">-->
+            <!--          <h6 class="entry-title">夺冠</h6>-->
+            <!--          <span class="property-location">-->
+            <!--             <i class="fa fa-map-marker"></i>生活片-->
+            <!--         </span>-->
+            <!--         </div>-->
+            <!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=3'"><strong>详情</strong></button>-->
+            <!--        </header>-->
+            <!--       </div>-->
+            <!--      </article>-->
+            <!--     </div>-->
+            <!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
+            <!--      <article class="property layout-item clearfix">-->
+            <!--       <figure class="feature-image">-->
+            <!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/4.jpg" alt="Property Image" /></a>-->
+            <!--       </figure>-->
+            <!--       <div class="property-contents clearfix">-->
+            <!--        <header class="property-header clearfix">-->
+            <!--         <div class="pull-left">-->
+            <!--          <h6 class="entry-title">急先锋</h6>-->
+            <!--          <span class="property-location">-->
+            <!--             <i class="fa fa-map-marker"></i>动作片-->
+            <!--         </span>-->
+            <!--         </div>-->
+            <!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=4'"><strong>详情</strong></button>-->
+            <!--        </header>-->
+            <!--       </div>-->
+            <!--      </article>-->
+            <!--     </div>-->
+            <!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
+            <!--      <article class="property layout-item clearfix">-->
+            <!--       <figure class="feature-image">-->
+            <!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/5.jpg" alt="Property Image" /></a>-->
+            <!--       </figure>-->
+            <!--       <div class="property-contents clearfix">-->
+            <!--        <header class="property-header clearfix">-->
+            <!--         <div class="pull-left">-->
+            <!--          <h6 class="entry-title">七号房的礼物</h6>-->
+            <!--          <span class="property-location">-->
+            <!--             <i class="fa fa-map-marker"></i>生活片-->
+            <!--         </span>-->
+            <!--         </div>-->
+            <!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=5'"><strong>详情</strong></button>-->
+            <!--        </header>-->
+            <!--       </div>-->
+            <!--      </article>-->
+            <!--     </div>-->
+            <!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
+            <!--      <article class="property layout-item clearfix">-->
+            <!--       <figure class="feature-image">-->
+            <!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/6.jpg" alt="Property Image" /></a>-->
+            <!--       </figure>-->
+            <!--       <div class="property-contents clearfix">-->
+            <!--        <header class="property-header clearfix">-->
+            <!--         <div class="pull-left">-->
+            <!--          <h6 class="entry-title">天道王</h6>-->
+            <!--          <span class="property-location">-->
+            <!--             <i class="fa fa-map-marker"></i>战争片-->
+            <!--         </span>-->
+            <!--         </div>-->
+            <!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=6'"><strong>详情</strong></button>-->
+            <!--        </header>-->
+            <!--       </div>-->
+            <!--      </article>-->
+            <!--     </div>-->
+            <!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
+            <!--      <article class="property layout-item clearfix">-->
+            <!--       <figure class="feature-image">-->
+            <!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/7.jpg" alt="Property Image" /></a>-->
+            <!--       </figure>-->
+            <!--       <div class="property-contents clearfix">-->
+            <!--        <header class="property-header clearfix">-->
+            <!--         <div class="pull-left">-->
+            <!--          <h6 class="entry-title">一点就到家</h6>-->
+            <!--          <span class="property-location">-->
+            <!--             <i class="fa fa-map-marker"></i>生活片-->
+            <!--         </span>-->
+            <!--         </div>-->
+            <!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=7'"><strong>详情</strong></button>-->
+            <!--        </header>-->
+            <!--       </div>-->
+            <!--      </article>-->
+            <!--     </div>-->
+            <!--     <div class="col-lg-3 col-sm-6 layout-item-wrap">-->
+            <!--      <article class="property layout-item clearfix">-->
+            <!--       <figure class="feature-image">-->
+            <!--        <a class="clearfix zoom" href="single-property.html"><img data-action="zoom" src="../images/property/8.jpg" alt="Property Image" /></a>-->
+            <!--       </figure>-->
+            <!--       <div class="property-contents clearfix">-->
+            <!--        <header class="property-header clearfix">-->
+            <!--         <div class="pull-left">-->
+            <!--          <h6 class="entry-title">喜宝</h6>-->
+            <!--          <span class="property-location">-->
+            <!--             <i class="fa fa-map-marker"></i>生活片-->
+            <!--         </span>-->
+            <!--         </div>-->
+            <!--         <button class="btn btn-primary btn-price pull-right btn-3d" data-hover="详情" onclick="javascript:window.location='schedule.html?playId=8'"><strong>详情</strong></button>-->
+            <!--        </header>-->
+            <!--       </div>-->
+            <!--      </article>-->
+            <!--     </div>-->
+        </div>
     </div>
-   </div>
-  </section>
+</section>
 
-  <footer id="footer">
-   <div class="site-footer">
-    <div class="container">
-     <div class="row">
-      <div class="col-md-4 col-sm-6">
-       <section class="widget address-widget clearfix">
-        <h4 class="title">联系方式</h4>
-        <ul>
-         <li>
-           <i class="fa fa-map-marker"></i>
-           <a href="http://cs.xiyou.edu.cn/">西安市长安区西长安街618号东区计算机学院</a>
-          </li>
-         <li><i class="fa fa-phone"></i>029-88166712</li>
-         <li><i class="fa fa-envelope"></i> shuxf@xiyou.edu.cn</li>
-         <li>@ Copyright &copy; 2020. 西安邮电大学计算机学院.</li>
-        </ul>
-       </section>
-      </div>
-     </div>
+<footer id="footer">
+    <div class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <section class="widget address-widget clearfix">
+                        <h4 class="title">联系方式</h4>
+                        <ul>
+                            <li>
+                                <i class="fa fa-map-marker"></i>
+                                <a href="http://cs.xiyou.edu.cn/">西安市长安区西长安街618号东区计算机学院</a>
+                            </li>
+                            <li><i class="fa fa-phone"></i>029-88166712</li>
+                            <li><i class="fa fa-envelope"></i> shuxf@xiyou.edu.cn</li>
+                            <li>@ Copyright &copy; 2020. 西安邮电大学计算机学院.</li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </div>
     </div>
-   </div>
-  </footer>
-  <a href="#top" id="scroll-top"><i class="fa fa-angle-up"></i></a>
-  <script src="../js/jquery.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="../js/slick.min.js"></script>
-  <script src="../js/zoom.js"></script>
+</footer>
+<a href="#top" id="scroll-top"><i class="fa fa-angle-up"></i></a>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/slick.min.js"></script>
+<script src="../js/zoom.js"></script>
 <!--  <script src="../js/theme.js"></script>-->
-  <script src="../js/jquery-ui.min.js"></script>
-  <script src="../js/jquery.form.min.js"></script>
-  <script src="../js/jquery.validate.min.js"></script>
- </body>
+<script src="../js/jquery-ui.min.js"></script>
+<script src="../js/jquery.form.min.js"></script>
+<script src="../js/jquery.validate.min.js"></script>
+</body>
 </html>

@@ -75,7 +75,7 @@ public class ScheduleDAO implements IScheduleDAO {
         List<Schedule> scheduleList = new LinkedList<Schedule>();
         try {
             ID.trim();
-            String sql = "select * from schedule where studio_id like '%" + ID + "%'";
+            String sql = "select * from schedule where play_id like '%" + ID + "%'";
             db = new DBUtil();
             if (!db.openConnection()) {
                 System.out.print("fail to connect database");

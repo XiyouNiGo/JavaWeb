@@ -24,7 +24,7 @@ public class CustomerDAO implements ICustomerDAO {
             }
             db.close(rst);
             sql = String.format("update customer set cus_balance = cus_balance + %d where "
-                    + "cus_name = '%s' and cus_paypwd = '%s'", amount, customer.getCusName(),
+                            + "cus_name = '%s' and cus_paypwd = '%s'", amount, customer.getCusName(),
                     customer.getCusPaypwd());
 
             result = db.execCommand(sql);

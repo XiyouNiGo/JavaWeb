@@ -45,8 +45,8 @@ public class PlayDAO implements IPlayDAO {
         int result = 0;
         try {
             String sql = String.format("update play set play_name = '%s', play_introduction = '%s', "
-                    + "play_image = '%s', play_video = '%s', play_length = '%ld', "
-                    + "play_ticket_price = '%lf', play_status = '%ld' where play_id = '%ld'",
+                            + "play_image = '%s', play_video = '%s', play_length = '%ld', "
+                            + "play_ticket_price = '%lf', play_status = '%ld' where play_id = '%ld'",
                     play.getPlayName(), play.getPlayIntroduction(), play.getPlayImage(),
                     play.getPlayVideo(), play.getPlayLength(), play.getPlayTicketPrice(),
                     play.getPlayStatus(), play.getPlayId());

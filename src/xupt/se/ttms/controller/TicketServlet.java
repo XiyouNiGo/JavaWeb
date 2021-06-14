@@ -33,6 +33,7 @@ public class TicketServlet extends HttpServlet {
         else if (type.equalsIgnoreCase("search"))
             search(req, resp);
     }
+
     private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         Ticket ticket = null;
@@ -76,7 +77,7 @@ public class TicketServlet extends HttpServlet {
             response.getWriter().write("false");
         }
     }
-    
+
     private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();

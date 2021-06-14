@@ -16,7 +16,7 @@ public class TicketDAO implements ITicketDAO {
         int result = 0;
         try {
             CustomerService customerService = new CustomerService();
-            if (customerService.pay((int)ticket.getTicketPrice(), customer) != 1) {
+            if (customerService.pay((int) ticket.getTicketPrice(), customer) != 1) {
                 return -1;
             }
             String sql = String.format("insert into ticket(seat_id, sched_id, ticket_price, "

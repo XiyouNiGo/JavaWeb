@@ -74,7 +74,7 @@ public class ScheduleServlet extends HttpServlet {
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-        Schedule schedule  = null;
+        Schedule schedule = null;
         int id = 0;
         try {
             schedule = new Schedule();
@@ -103,10 +103,10 @@ public class ScheduleServlet extends HttpServlet {
     private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        String studio_id = request.getParameter("studio_id");
+        String play_id = request.getParameter("play_id");
         List<Schedule> result = null;
-        if (studio_id != null && studio_id.length() > 0)
-            result = new ScheduleService().Fetch(studio_id);
+        if (play_id != null && play_id.length() > 0)
+            result = new ScheduleService().Fetch(play_id);
         else
             result = new ScheduleService().FetchAll();
         String jsonStr = "";

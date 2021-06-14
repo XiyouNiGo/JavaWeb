@@ -9,6 +9,7 @@ import xupt.se.ttms.service.iservice.IScheduleService;
 
 public class ScheduleService implements IScheduleService {
     private IScheduleDAO scheduleDAO = ScheduleDAOFactory.creatScheduleDAO();
+
     @Override
     public int add(Schedule schedule) {
         return scheduleDAO.insert(schedule);

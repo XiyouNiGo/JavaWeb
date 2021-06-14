@@ -7,7 +7,9 @@ public class Studio {
     private int colCount = 0;
     private String introduction = "";
 
-    public Studio() { id = 0; }
+    public Studio() {
+        id = 0;
+    }
 
     public Studio(int _id, String _name, int _rowCount, int _colCount, String _intro) {
         id = _id;

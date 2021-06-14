@@ -27,7 +27,6 @@ public class PlayServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
-        System.out.println("type:" + type);
         int id = 0;
         if (type.equalsIgnoreCase("add"))
             add(req, resp);
@@ -49,8 +48,7 @@ public class PlayServlet extends HttpServlet {
             play.setPlayIntroduction(request.getParameter("introduction"));
             Part part = request.getPart("image");
             String partHeader = part.getHeader("Content-Disposition");
-            String image_name = partHeader.substring(partHeader.lastIndexOf("=")+2, partHeader.length()-1);
-            System.out.println("image_name:" + image_name);
+            String image_name = partHeader.substring(partHeader.lastIndexOf("=") + 2, partHeader.length() - 1);
             if (image_name != "") {
                 String image_dir_path = request.getServletContext().getRealPath("/images/property/");
                 File image_dir = new File(image_dir_path);
@@ -59,9 +57,8 @@ public class PlayServlet extends HttpServlet {
                 }
                 String file_name = UUID.randomUUID().toString();
                 String suffix = image_name.substring(image_name.lastIndexOf("."));
-                System.out.println(image_dir_path + file_name + suffix);
                 part.write(image_dir_path + file_name + suffix);
-                image_name = file_name;
+                image_name = file_name + suffix;
             } else {
                 throw new Exception("No file");
             }
@@ -91,7 +88,11 @@ public class PlayServlet extends HttpServlet {
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             PrintWriter out = response.getWriter();
-            out.write("" + new PlayService().delete(id));
+            if (new PlayService().delete(id) == 1) {
+                out.write("true");
+            } else {
+                out.write("false");
+            }
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,19 +102,19 @@ public class PlayServlet extends HttpServlet {
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-            Play play = null;
-            int id = 0;
-            try {
-                id = Integer.valueOf(request.getParameter("id"));
-                String name = request.getParameter("name");
-                String introduction = request.getParameter("introduction");
-                String image = request.getParameter("image");
-                String video = request.getParameter("video");
-                long length = Long.valueOf(request.getParameter("length"));
-                double ticket_price = Double.valueOf(request.getParameter("ticket_price"));
-                long status = Long.valueOf(request.getParameter("status"));
-                play = new Play(name, introduction, image, video, length, ticket_price, status);
-                PrintWriter out = response.getWriter();
+        Play play = null;
+        int id = 0;
+        try {
+            id = Integer.valueOf(request.getParameter("id"));
+            String name = request.getParameter("name");
+            String introduction = request.getParameter("introduction");
+            String image = request.getParameter("image");
+            String video = request.getParameter("video");
+            long length = Long.valueOf(request.getParameter("length"));
+            double ticket_price = Double.valueOf(request.getParameter("ticket_price"));
+            long status = Long.valueOf(request.getParameter("status"));
+            play = new Play(name, introduction, image, video, length, ticket_price, status);
+            PrintWriter out = response.getWriter();
 
             if (new PlayService().modify(play) == 1)
                 out.write("数据修改成功");
