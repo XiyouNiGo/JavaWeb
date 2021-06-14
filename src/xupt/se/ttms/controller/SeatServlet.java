@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,14 +14,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import xupt.se.ttms.entity.Schedule;
-import xupt.se.ttms.service.ScheduleService;
+import xupt.se.ttms.entity.Seat;
+import xupt.se.ttms.service.SeatService;
 
-@WebServlet("/ScheduleServlet")
-public class ScheduleServlet extends HttpServlet {
-    @Override
+@WebServlet("/SeatServlet")
+public class SeatServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
+        int id = 0;
         if (type.equalsIgnoreCase("add"))
             add(req, resp);
         else if (type.equalsIgnoreCase("delete"))
@@ -32,22 +31,18 @@ public class ScheduleServlet extends HttpServlet {
         else if (type.equalsIgnoreCase("search"))
             search(req, resp);
     }
-
     private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-        Schedule schedule = null;
-        int id = 0;
+        Seat seat = null;
         try {
-            schedule = new Schedule();
-            schedule.setStudioId(Long.valueOf(request.getParameter("studio_id")));
-            schedule.setPlayId(Long.valueOf(request.getParameter("play_id")));
-            schedule.setSchedTime(Timestamp.valueOf(request.getParameter("sched_time")));
-            schedule.setSchedTicketPrice(Double.valueOf(request.getParameter("sched_ticket_price")));
-            schedule.setSchedStatus(Long.valueOf(request.getParameter("sched_status")));
+            seat = new Seat();
+            seat.setStudioId(Long.valueOf(request.getParameter("studio_id")));
+            seat.setSeatRow(Long.valueOf(request.getParameter("seat_row")));
+            seat.setSeatColumn(Long.valueOf(request.getParameter("seat_column")));
 
             PrintWriter out = response.getWriter();
 
-            if (new ScheduleService().add(schedule) == 1)
+            if (new SeatService().add(seat) == 1)
                 out.write("true");
             else
                 out.write("false");
@@ -64,7 +59,11 @@ public class ScheduleServlet extends HttpServlet {
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             PrintWriter out = response.getWriter();
-            out.write("" + new ScheduleService().delete(id));
+            if (new SeatService().delete(id) == 1) {
+                out.write("true");
+            } else {
+                out.write("false");
+            }
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,21 +73,15 @@ public class ScheduleServlet extends HttpServlet {
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
-        Schedule schedule = null;
+        Seat seat = null;
         int id = 0;
         try {
-            schedule = new Schedule();
-            schedule.setSchedId(Long.valueOf(request.getParameter("id")));
-            schedule.setStudioId(Long.valueOf(request.getParameter("studio_id")));
-            schedule.setPlayId(Long.valueOf(request.getParameter("play_id")));
-            schedule.setSchedTime(Timestamp.valueOf(request.getParameter("sched_time")));
-            schedule.setSchedTicketPrice(Double.valueOf(request.getParameter("sched_ticket_price")));
-            System.out.println(request.getParameter("sched_status"));
-            schedule.setSchedStatus(Long.valueOf(request.getParameter("sched_status")));
-
+            seat = new Seat();
+            seat.setSeatId(Long.valueOf(request.getParameter("seat_id")));
+            seat.setSeatStatus(Long.valueOf(request.getParameter("seat_status")));
             PrintWriter out = response.getWriter();
 
-            if (new ScheduleService().modify(schedule) == 1)
+            if (new SeatService().modify(seat) == 1)
                 out.write("true");
             else
                 out.write("false");
@@ -103,25 +96,23 @@ public class ScheduleServlet extends HttpServlet {
     private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        String play_id = request.getParameter("play_id");
-        List<Schedule> result = null;
-        if (play_id != null && play_id.length() > 0)
-            result = new ScheduleService().Fetch(play_id);
+        String studio_id = request.getParameter("studio_id");
+        List<Seat> result = null;
+        if (studio_id != null && studio_id.length() > 0)
+            result = new SeatService().Fetch(studio_id);
         else
-            result = new ScheduleService().FetchAll();
+            result = new SeatService().FetchAll();
         String jsonStr = "";
         try {
             JSONArray array = new JSONArray();
             JSONObject json;
-            for (Schedule schedule : result) {
+            for (Seat seat : result) {
                 json = new JSONObject();
-                json.put("id", schedule.getSchedId());
-                json.put("studio_id", schedule.getStudioId());
-                json.put("play_id", schedule.getPlayId());
-                json.put("sched_time", schedule.getSchedTime().toString());
-                json.put("sched_ticket_price", schedule.getSchedTicketPrice());
-//                json.put("studio_name", schedule.getSchedTicketPrice());
-                json.put("sched_status", schedule.getSchedStatus());
+                json.put("id", seat.getSeatId());
+                json.put("studio_id", seat.getStudioId());
+                json.put("seat_row", seat.getSeatRow());
+                json.put("seat_column", seat.getSeatColumn());
+                json.put("seat_status", seat.getSeatStatus());
                 array.put(json);
             }
             jsonStr = array.toString();

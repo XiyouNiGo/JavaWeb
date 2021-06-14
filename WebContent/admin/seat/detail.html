@@ -119,28 +119,21 @@
             //alert(type);
             document.getElementById("type").value = type;
             if (type == "update") {
-                var id = UrlParm.parm("id");
-                var studio_id = UrlParm.parm("studio_id");
-                var play_id = UrlParm.parm("play_id");
-                var sched_time = UrlParm.parm("sched_time");
-                var sched_ticket_price = UrlParm.parm("sched_ticket_price");
-                var sched_status = UrlParm.parm("sched_status");
-                document.getElementById("id").value = id;
-                document.getElementById("studio_id").value = studio_id;
-                document.getElementById("play_id").value = play_id;
-                document.getElementById("sched_time").value = sched_time;
-                document.getElementById("sched_ticket_price").value = sched_ticket_price;
-                document.getElementById("sched_status").value = sched_status;
+                document.getElementById("id").value = UrlParm.parm("id");
+                document.getElementById("studio_id").value = UrlParm.parm("studio_id");
+                document.getElementById("seat_row").value = UrlParm.parm("seat_row");
+                document.getElementById("seat_column").value = UrlParm.parm("seat_column");
+                document.getElementById("seat_status").value = UrlParm.parm("seat_status");
             }
         }
 
         function check() {
             var form = document.getElementById("myform");
-            if (form.studio_id.value == "" || form.play_id.value == "" || form.sched_time.value == "" || form.sched_ticket_price.value == "" || form.sched_status.value == "") {
+            if (form.studio_id.value == "" || form.seat_row.value == "" || form.seat_column.value == "" || form.seat_status.value == "") {
                 alert("请填写完整信息");
                 return;
             }
-            var url = "/ScheduleServlet";
+            var url = "/SeatServlet";
             if (window.XMLHttpRequest)
                 req = new XMLHttpRequest();
             else if (window.ActiveXObject)
@@ -151,18 +144,21 @@
                 req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 req.onreadystatechange = checkComplete;
                 var data = "type=" + form.type.value
-                    + "&id=" + encodeURIComponent(form.id.value)
-                    + "&sched_status=" + form.sched_status.value
-                    + "&studio_id=" + encodeURIComponent(form.studio_id.value)
-                    + "&play_id=" + form.play_id.value
-                    + "&sched_time=" + form.sched_time.value
-                    + "&sched_ticket_price=" + form.sched_ticket_price.value;
+                    + "&id=" + form.id.value
+                    + "&studio_id=" + form.studio_id.value
+                    + "&seat_row=" + form.seat_row.value
+                    + "&seat_column=" + form.seat_column.value
+                    + "&seat_status=" + form.seat_status.value
                 req.send(data);
             }
 
             function checkComplete() {
                 if (req.readyState == 4 && req.status == 200) {
-                    alert(req.responseText);
+                    if (req.responseText == "true") {
+                        alert("成功");
+                    } else  {
+                        alert("失败");
+                    }
                 }
             }
         }
@@ -230,12 +226,17 @@
                                 </a>
                             </li>
                             <li>
-                                <a id="linksched" href="#" style="padding-left:30px;">
+                                <a id="linksched" href="../schedule/index.html" style="padding-left:30px;">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>演出计划
                                 </a>
                             </li>
                             <li>
-                                <a id="linkcheck" href="#" style="padding-left:30px;">
+                                <a id="linkseat" href="../seat/index.html" style="padding-left:30px;">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>座位管理
+                                </a>
+                            </li>
+                            <li>
+                                <a id="linkcheck" href="../ticket/index.html" style="padding-left:30px;">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>验票管理
                                 </a>
                             </li>
@@ -363,13 +364,13 @@
 
     <!--右侧内容部分-->
     <div class="col-md-9" style="margin-left:5px;">
-        <div style="margin:5px 0px 10px 0px;">剧院管理 > 演出计划> 添加计划</div>
+        <div style="margin:5px 0px 10px 0px;">剧院管理 > 座位管理> 添加座位</div>
         <!-- 增加员工信息 -->
         <form id="myform" class="form-horizontal" role="form" action="#"
               method="post">
             <input type="hidden" id="type" name="type">
             <div class="form-group">
-                <label class="col-sm-2 control-label">计划编号</label>
+                <label class="col-sm-2 control-label">座位编号</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" name="id"
                            id="id" disabled="disabled">
@@ -383,31 +384,24 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">剧目编号</label>
+                <label class="col-sm-2 control-label">排号</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="play_id"
-                           id="play_id" placeholder="请输入剧目编号">
+                    <input type="text" class="form-control" name="seat_row"
+                           id="seat_row" placeholder="请输入排号">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">放映时间</label>
+                <label class="col-sm-2 control-label">列号</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="sched_time"
-                           id="sched_time" placeholder="请输入放映时间">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">票价</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" name="sched_ticket_price"
-                           id="sched_ticket_price" placeholder="请输入票价">
+                    <input type="text" class="form-control" name="seat_column"
+                           id="seat_column" placeholder="请输入列号">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">状态</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="sched_status"
-                           id="sched_status" placeholder="请输入状态">
+                    <input type="text" class="form-control" name="seat_status"
+                           id="seat_status" placeholder="请输入状态">
                 </div>
             </div>
             <div class="form-group">

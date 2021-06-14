@@ -162,7 +162,11 @@
 
             function checkComplete() {
                 if (req.readyState == 4 && req.status == 200) {
-                    alert(req.responseText);
+                    if (req.responseText == "true") {
+                        alert("成功");
+                    } else {
+                        alert("失败");
+                    }
                 }
             }
         }
@@ -232,6 +236,11 @@
                             <li>
                                 <a id="linksched" href="#" style="padding-left:30px;">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>演出计划
+                                </a>
+                            </li>
+                            <li>
+                                <a id="linkseat" href="../seat/index.html" style="padding-left:30px;">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>座位管理
                                 </a>
                             </li>
                             <li>

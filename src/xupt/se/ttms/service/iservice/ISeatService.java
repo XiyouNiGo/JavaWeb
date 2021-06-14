@@ -9,6 +9,8 @@ public interface ISeatService {
 
     public int modify(Seat seat);
 
+    int delete(int ID);
+
     public List<Seat> Fetch(String condt);
 
     public List<Seat> FetchAll();

@@ -21,6 +21,11 @@ public class SeatService implements ISeatService {
     }
 
     @Override
+    public int delete(int ID) {
+        return seatDAO.delete(ID);
+    }
+
+    @Override
     public List<Seat> Fetch(String condt) {
         return seatDAO.select(condt);
     }

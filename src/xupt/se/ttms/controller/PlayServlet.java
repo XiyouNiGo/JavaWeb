@@ -96,7 +96,7 @@ public class PlayServlet extends HttpServlet {
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write("操作错误，请重试");
+            response.getWriter().write("false");
         }
     }
 
@@ -117,14 +117,14 @@ public class PlayServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
 
             if (new PlayService().modify(play) == 1)
-                out.write("数据修改成功");
+                out.write("true");
             else
-                out.write("数据修改失败，请重试");
+                out.write("false");
 
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write("操作错误，请重试");
+            response.getWriter().write("false");
         }
     }
 

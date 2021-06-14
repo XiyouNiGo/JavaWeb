@@ -55,7 +55,7 @@
 
     <script type="text/javascript">
         function search() {
-            var url = "/ScheduleServlet";
+            var url = "/SeatServlet";
             if (window.XMLHttpRequest)
                 req = new XMLHttpRequest();
             else if (window.ActiveXObject)
@@ -84,29 +84,27 @@
                     var row = theTable.insertRow(rowCount);//在tale里动态的增加tr
                     row.insertCell(0).innerHTML = json[i].id;
                     row.insertCell(1).innerHTML = json[i].studio_id;
-                    row.insertCell(2).innerHTML = json[i].play_id;
-                    row.insertCell(3).innerHTML = json[i].sched_time;
-                    row.insertCell(4).innerHTML = json[i].sched_ticket_price;
-                    row.insertCell(5).innerHTML = json[i].sched_status;
+                    row.insertCell(2).innerHTML = json[i].seat_row;
+                    row.insertCell(3).innerHTML = json[i].seat_column;
+                    row.insertCell(4).innerHTML = json[i].seat_status;
                     //var tmp = {'json[i].schedule_id':}
                     var tmp = json[i].id + "," + json[i].studio_id + "," +
-                        json[i].play_id + ",\'" + json[i].sched_time + "\'," +
-                        json[i].sched_ticket_price + "," + json[i].sched_status;
-                    row.insertCell(6).innerHTML =
+                        json[i].seat_row + ",\'" + json[i].seat_column + "\'," +
+                        json[i].seat_status;
+                    row.insertCell(5).innerHTML =
                         '<input type="button" class="btn btn-xs btn-primary" value="修改" onclick="modify(' + tmp + ')" />&nbsp;&nbsp;<input type="button" class="btn btn-xs btn-danger" value="删除" onclick="del(' + json[i].id + ')" />';
                 }
             }
         }
 
-        function modify(a, b, c, d, e, f) {
+        function modify(a, b, c, d, e) {
             window.location = "detail.html?type=update&id=" + a + "&studio_id=" + b
-                + "&play_id=" + c + "&sched_time=" + d + "&sched_ticket_price=" + e + "&sched_status=" + f;
+                + "&seat_row=" + c + "&seat_column=" + d + "&seat_status=" + e;
         }
 
         function del(id) {
             if (confirm("确定删除？")) {
-
-                var url = "/ScheduleServlet";
+                var url = "/SeatServlet";
                 if (window.XMLHttpRequest)
                     req = new XMLHttpRequest();
                 else if (window.ActiveXObject)
@@ -124,7 +122,7 @@
 
         function delComplete() {
             if (req.readyState == 4 && req.status == 200) {
-                if (req.responseText == 1)
+                if (req.responseText == "true")
                     search();
                 else
                     alert("数据删除失败，请重试");
@@ -202,8 +200,13 @@
                                 </a>
                             </li>
                             <li>
-                                <a id="linksched" href="#" style="padding-left:30px;">
+                                <a id="linksched" href="../schedule/index.html" style="padding-left:30px;">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>演出计划
+                                </a>
+                            </li>
+                            <li>
+                                <a id="linkseat" href="../seat/index.html" style="padding-left:30px;">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>座位管理
                                 </a>
                             </li>
                             <li>

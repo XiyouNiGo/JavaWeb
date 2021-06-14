@@ -42,8 +42,7 @@ public class TicketServlet extends HttpServlet {
             ticket.setSeatId(Long.valueOf(request.getParameter("seat_id")));
             ticket.setSchedId(Long.valueOf(request.getParameter("sched_id")));
             ticket.setTicketPrice(Long.valueOf(request.getParameter("ticket_price")));
-//            ticket.setTicketImage(request.getParameter("image"));
-            ticket.setTicketStatus(0);
+            ticket.setTicketStatus(Long.valueOf(request.getParameter("ticket_status")));
 
             PrintWriter out = response.getWriter();
 
@@ -93,7 +92,7 @@ public class TicketServlet extends HttpServlet {
             JSONObject json;
             for (Ticket ticket : result) {
                 json = new JSONObject();
-                json.put("ticket_id", ticket.getTicketId());
+                json.put("id", ticket.getTicketId());
                 json.put("seat_id", ticket.getSeatId());
                 json.put("sched_id", ticket.getSchedId());
                 json.put("ticket_price", ticket.getTicketPrice());

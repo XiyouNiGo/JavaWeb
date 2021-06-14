@@ -1,5 +1,9 @@
 package xupt.se.ttms.controller;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -9,10 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import xupt.se.ttms.entity.Studio;
 import xupt.se.ttms.service.StudioService;
@@ -45,14 +45,14 @@ public class StudioServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
 
             if (new StudioService().add(stu) == 1)
-                out.write("数据添加成功");
+                out.write("true");
             else
-                out.write("数据添加失败，请重试");
+                out.write("false");
 
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write("操作错误，请重试");
+            response.getWriter().write("false");
         }
     }
 
@@ -65,7 +65,7 @@ public class StudioServlet extends HttpServlet {
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write("操作错误，请重试");
+            response.getWriter().write("false");
         }
     }
 
@@ -83,14 +83,14 @@ public class StudioServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
 
             if (new StudioService().modify(stu) == 1)
-                out.write("数据修改成功");
+                out.write("true");
             else
-                out.write("数据修改失败，请重试");
+                out.write("false");
 
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
-            response.getWriter().write("操作错误，请重试");
+            response.getWriter().write("false");
         }
     }
 
