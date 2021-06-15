@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import xupt.se.ttms.entity.Studio;
+import xupt.se.ttms.service.SeatService;
 import xupt.se.ttms.service.StudioService;
 
 @WebServlet("/StudioServlet")
@@ -44,7 +45,7 @@ public class StudioServlet extends HttpServlet {
             stu = new Studio(id, name, rowCount, colCount, intro);
             PrintWriter out = response.getWriter();
 
-            if (new StudioService().add(stu) == 1)
+            if (new StudioService().add(stu) == 1 && new SeatService().add(stu) == 1)
                 out.write("true");
             else
                 out.write("false");
@@ -61,7 +62,11 @@ public class StudioServlet extends HttpServlet {
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             PrintWriter out = response.getWriter();
-            out.write("" + new StudioService().delete(id));
+            if(new SeatService().delete(id) == 1 && new StudioService().delete(id) == 1) {
+                out.write("true");
+            } else {
+                out.write("false");
+            }
             out.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +86,8 @@ public class StudioServlet extends HttpServlet {
             String intro = request.getParameter("intro");
             stu = new Studio(id, name, rowCount, colCount, intro);
             PrintWriter out = response.getWriter();
-
+            new SeatService().delete(Integer.valueOf(stu.getID()));
+            new SeatService().add(stu);
             if (new StudioService().modify(stu) == 1)
                 out.write("true");
             else

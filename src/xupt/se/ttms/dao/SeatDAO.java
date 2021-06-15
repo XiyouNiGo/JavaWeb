@@ -84,7 +84,7 @@ public class SeatDAO implements ISeatDAO {
     public int delete(int ID) {
         int result = 0;
         try {
-            String sql = "delete from seat where seat_id = " + ID;
+            String sql = "delete from seat where studio_id = " + ID;
             DBUtil db = new DBUtil();
             db.openConnection();
             result = db.execCommand(sql);

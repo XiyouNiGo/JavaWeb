@@ -32,5 +32,6 @@
     <orderEntry type="library" name="mysql-connector-java-8.0.24" level="project" />
     <orderEntry type="library" name="javax.annotation" level="application" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
+    <orderEntry type="library" name="commons-beanutils-1.7.0" level="project" />
   </component>
 </module>

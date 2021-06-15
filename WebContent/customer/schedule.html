@@ -71,11 +71,12 @@
             }
         }();
 
-        function get_button_html(studio_id, sched_time, price) {
+        function get_button_html(studio_id, sched_time, price, id) {
             var button_html = "<button type=\"button\" className=\"btn btn-sm btn-danger\"\n" +
                 "onClick=\"javascript:window.location='seats.html?" +
                 "name=" + UrlParm.parm("name") + "&studio_id=" + studio_id +
                 "&sched_time=" + sched_time + "&price=" + price +
+                "&id=" + id +
                 "'\">选座购票\n" +
                 "</button>";
             return button_html;
@@ -113,7 +114,8 @@
                                     row.insertCell(1).innerHTML = UrlParm.parm("language");
                                     row.insertCell(2).innerHTML = json[i].studio_id;
                                     row.insertCell(3).innerHTML = json[i].sched_ticket_price;
-                                    row.insertCell(4).innerHTML = get_button_html(json[i].studio_id, json[i].sched_time, json[i].sched_ticket_price);
+                                    row.insertCell(4).innerHTML = get_button_html(json[i].studio_id, json[i].sched_time,
+                                        json[i].sched_ticket_price, json[i].id);
                                 }
                             }
                         }
@@ -148,6 +150,9 @@
                         <li><a href="board.html">榜单</a></li>
                         <li><a href="contact.html">联系我们</a></li>
                         <li><a href="login.html">登陆</a></li>
+                        <li><a href="register.html">注册</a></li>
+                        <li><a href="information.html">个人中心</a></li>
+                        <li><a href="recharge.html">充值中心</a></li>
                     </ul>
                 </nav>
             </div>

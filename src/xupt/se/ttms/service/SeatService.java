@@ -5,6 +5,7 @@ import java.util.List;
 import xupt.se.ttms.dao.factory.SeatDAOFactory;
 import xupt.se.ttms.dao.idao.ISeatDAO;
 import xupt.se.ttms.entity.Seat;
+import xupt.se.ttms.entity.Studio;
 import xupt.se.ttms.service.iservice.ISeatService;
 
 public class SeatService implements ISeatService {
@@ -13,6 +14,11 @@ public class SeatService implements ISeatService {
     @Override
     public int add(Seat seat) {
         return seatDAO.insert(seat);
+    }
+
+    @Override
+    public int add(Studio studio) {
+        return seatDAO.insert(studio);
     }
 
     @Override

@@ -32,12 +32,42 @@ public class TicketServlet extends HttpServlet {
 //            update(req, resp);
         else if (type.equalsIgnoreCase("search"))
             search(req, resp);
+        else if (type.equalsIgnoreCase("add_batch"))
+            add_batch(req, resp);
     }
 
     private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
         Ticket ticket = null;
         try {
+            ticket = new Ticket();
+            ticket.setSeatId(Long.valueOf(request.getParameter("seat_id")));
+            ticket.setSchedId(Long.valueOf(request.getParameter("sched_id")));
+            ticket.setTicketPrice(Long.valueOf(request.getParameter("ticket_price")));
+            ticket.setTicketStatus(Long.valueOf(request.getParameter("ticket_status")));
+
+            PrintWriter out = response.getWriter();
+
+            Customer customer = new Customer();
+            customer.setCusName(request.getParameter("uname"));
+            customer.setCusPaypwd(request.getParameter("paypwd"));
+            if (new TicketService().add(ticket, customer) == 1)
+                out.write("true");
+            else
+                out.write("false");
+
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().write("false");
+        }
+    }
+
+    private void add_batch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=utf-8");
+        Ticket ticket = null;
+        try {
+//            JSONObject jsonObj = JSON.parseObject(jsonStr);
             ticket = new Ticket();
             ticket.setSeatId(Long.valueOf(request.getParameter("seat_id")));
             ticket.setSchedId(Long.valueOf(request.getParameter("sched_id")));

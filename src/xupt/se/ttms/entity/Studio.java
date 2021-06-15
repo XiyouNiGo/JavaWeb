@@ -13,7 +13,7 @@ public class Studio {
 
     public Studio(int _id, String _name, int _rowCount, int _colCount, String _intro) {
         id = _id;
-        name = name;
+        name = _name;
         rowCount = _rowCount;
         colCount = _colCount;
         introduction = _intro;

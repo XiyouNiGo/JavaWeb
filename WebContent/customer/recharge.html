@@ -7,12 +7,18 @@
     <title>汉唐剧院管理系统-联系我们</title>
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/slick.css">
-    <link rel="stylesheet" href="../css/slicknav.css" >
+    <link rel="stylesheet" href="../css/slicknav.css">
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/theme.css">
-     <script type="text/javascript">
-        function recharge(){
+    <script src="../js/cookie.js"></script>
+    <script type="text/javascript">
+        function init() {
+            if (getCookie("uname") != "") {
+                document.getElementById("uname").value = getCookie("uname");
+            }
+        }
+        function recharge() {
             var url = "/CustomerServlet";
             if (window.XMLHttpRequest)
                 req = new XMLHttpRequest();
@@ -34,17 +40,17 @@
                             alert("充值失败");
                     }
                 };
-                req.send("type=recharge&uname="+document.getElementById("uname").value+"&amount="+document.getElementById("amount").value+"&paypwd="+document.getElementById("paypwd").value);
+                req.send("type=recharge&uname=" + document.getElementById("uname").value + "&amount=" + document.getElementById("amount").value + "&paypwd=" + document.getElementById("paypwd").value);
             }
         }
     </script>
 </head>
-<body class="contact-template">
+<body class="contact-template" onload="init()">
 <header id="site-header">
     <div class="container">
         <div class="row">
             <div class="col-md-2" style="margin:5px">
-            <a href="index.html"><img src="../images/logo.png" width="127" height="48"/></a>
+                <a href="index.html"><img src="../images/logo.png" width="127" height="48"/></a>
             </div>
             <div class="col-md-5 col-sm-8">
                 <nav id="site-nav" class="nav navbar-default">
@@ -53,6 +59,9 @@
                         <li><a href="board.html">榜单</a></li>
                         <li><a href="contact.html">联系我们</a></li>
                         <li><a href="login.html">登陆</a></li>
+                        <li><a href="register.html">注册</a></li>
+                        <li><a href="information.html">个人中心</a></li>
+                        <li><a href="recharge.html">充值中心</a></li>
                     </ul>
                 </nav>
             </div>
@@ -67,25 +76,42 @@
 <div id="contact-page" class="contact-page-var-one">
     <div class="container">
         <div class="row">
-                 <form method="post" class="layui-form" action="#">
-                     <table align="center">
-                         <tr>
-                             <td><font size="5">用户名：</font><hr class="hr15"></td>
-                             <td><input type="text" id="uname" placeholder="请输入你的用户名" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
-                         </tr>
-                         <tr>
-                             <td><font size=5>充值金额：</font><hr class="hr15"></td>
-                             <td><input type="text" id="amount" placeholder="请输入充值的金额" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
-                         </tr>
-                         <tr>
-                             <td><font size=5>支付密码：</font><hr class="hr15"></td>
-                             <td><input type="text" id="paypwd" placeholder="输入您的支付密码" value="" style="width:250px;height:60px;" ><hr class="hr15"></td>
-                         </tr>
-                         <tr >
-                             <td colspan="2" align="center"><input type="button" value="充值" style="font-size:18px;width:100%;" onClick="recharge()"></td>
-                         </tr>
-                     </table>
-                 </form>
+            <form method="post" class="layui-form" action="#">
+                <table align="center">
+                    <tr>
+                        <td><font size="5">用户名：</font>
+                            <hr class="hr15">
+                        </td>
+                        <td><input type="text" id="uname" placeholder="请输入你的用户名" value=""
+                                   style="width:250px;height:60px;">
+                            <hr class="hr15">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><font size=5>充值金额：</font>
+                            <hr class="hr15">
+                        </td>
+                        <td><input type="text" id="amount" placeholder="请输入充值的金额" value=""
+                                   style="width:250px;height:60px;">
+                            <hr class="hr15">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><font size=5>支付密码：</font>
+                            <hr class="hr15">
+                        </td>
+                        <td><input type="text" id="paypwd" placeholder="输入您的支付密码" value=""
+                                   style="width:250px;height:60px;">
+                            <hr class="hr15">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center"><input type="button" value="充值"
+                                                              style="font-size:18px;width:100%;" onClick="recharge()">
+                        </td>
+                    </tr>
+                </table>
+            </form>
         </div>
     </div>
 </div>
